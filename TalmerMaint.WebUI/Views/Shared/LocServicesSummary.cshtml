@@ -1,0 +1,46 @@
+﻿@using TalmerMaint.Domain.Entities
+@model ICollection<LocServices>
+
+<table class="table table-striped">
+    <tr>
+        <th>Icon</th>
+        <th>Service Name</th>
+        <th>Actions</th>
+    </tr>
+    @if (Model == null || !Model.Any())
+    {
+        if (Model == null)
+        {
+            <tr><td colspan="3" class="text-center">Services can only be defined when the location has been saved</td></tr>
+
+        }
+        else
+        {
+            <tr><td colspan="3" class="text-center">No Services have been defined</td></tr>
+
+        }
+
+    }
+    else
+    {
+        foreach (LocServices serv in Model)
+        {
+            <tr>
+                <td><i class="fa @serv.IconClassName"></i></td>
+                <td>@serv.Name</td>
+                
+                <td>
+                    @using (Html.BeginForm("Delete", "LocServices",
+                                        new { id = serv.Id, locId = serv.LocationId }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ActionLink("Edit", "Edit", "LocServices", new { id = serv.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+
+        }
+    }
+</table>

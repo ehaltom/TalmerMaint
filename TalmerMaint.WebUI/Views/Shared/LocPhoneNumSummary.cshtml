@@ -1,0 +1,52 @@
+﻿@using TalmerMaint.Domain.Entities
+@model ICollection<LocPhoneNums>
+
+<table class="table table-striped">
+    <tr>
+        <th>Phone Name</th>
+        <th>Number</th>
+        <th>Extensions</th>
+        <th>Actions</th>
+    </tr>
+    @if (Model == null || !Model.Any())
+    {
+        if (Model == null)
+        {
+            <tr><td colspan="3" class="text-center">Phones can only be defined when the location has been saved</td></tr>
+
+        }
+        else
+        {
+            <tr><td colspan="3" class="text-center">No Phones have been defined</td></tr>
+
+        }
+
+    }
+    else
+    {
+        foreach (LocPhoneNums phones in Model)
+        {
+            <tr>
+                <td>@phones.Name</td>
+                <td>@phones.Number</td>
+                <td>
+                    @foreach (LocPhoneExts ext in phones.LocPhoneExts)
+                    {
+                        <span class="text-small"><strong>@ext.Name:</strong> @ext.Number </span><br />
+                    }
+                </td>
+                <td>
+                    @using (Ajax.BeginForm("Delete", "LocPhoneNums",
+                                        new { id = phones.Id, locationId = phones.LocationId },null))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ActionLink("Edit", "Edit", "LocPhoneNums", new { id = phones.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+
+        }
+    }
+</table>

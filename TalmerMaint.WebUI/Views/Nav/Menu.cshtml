@@ -1,0 +1,28 @@
+﻿@model IEnumerable<string>
+
+<div class="sidebar margin-top-twenty">
+
+    @Html.ActionLink("Locations Home", "Index", "Locations", null, new { @class = "btn btn-block btn-default btn-lg" })
+
+    @foreach (var link in Model)
+    {
+
+        @Html.RouteLink(TalmerMaint.Domain.Extensions.CentralLibrary.GetStateName(link), new { controller = "Locations", action = "Index", state = link, page = 1 }, new { @class = "btn btn-block btn-default btn-lg" + (link == ViewBag.SelectedState ? " btn-primary" : "") })
+    }
+    <div class="margin-top-ten hidden">
+        @using (Ajax.BeginForm(new AjaxOptions
+        {
+            HttpMethod = "get",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "locList"
+        }))
+        {
+            <div class="input-group margin-bottom-ten">
+                <input type="text" name="search" class="form-control" />
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default">Search</button>
+                </span>
+            </div>
+        }
+    </div>
+</div>

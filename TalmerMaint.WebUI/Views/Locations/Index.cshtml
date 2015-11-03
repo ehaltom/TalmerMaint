@@ -1,0 +1,19 @@
+﻿@model TalmerMaint.WebUI.Models.LocationListViewModel
+
+@{
+    ViewBag.Title = "Talmer Branch Locations";
+}
+<div class="row">
+    <div class="col-md-4 relative">
+        @Html.Action("Menu", "Nav")
+    </div>
+    <div class="col-md-8">
+        <h2>Talmer Branch Locations</h2>
+        @Html.ActionLink("Add a new Loction", "Create", null, new { @class = "btn btn-default" })
+        <hr />
+@Html.Partial("LocationSummary", Model.Locations)
+        <div class="btn-group pull-right" style="margin-bottom:20px;">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, state = Model.CurrentState }))
+        </div>
+    </div>
+</div>

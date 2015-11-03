@@ -1,0 +1,188 @@
+﻿@model TalmerMaint.Domain.Entities.Location
+
+@{
+    ViewBag.Title = Model.Name;
+}
+<div class="panel">
+    <div class="panel-heading">
+
+        <h2>
+
+            Edit the @Model.Name <small>@Model.Subtitle</small> branch location
+
+        </h2>
+    </div>
+   
+    <div class="panel-body">
+
+        <div class="col-md-7">
+            @using (Html.BeginForm("Edit", "Locations", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {                @Html.HiddenFor(m => m.Id)
+
+
+                <div class="form-inline col-sm-offset-3 col-sm-9 margin-bottom-ten">
+                    <div class="checkbox" style="margin-right:20px;">@Html.CheckBox("AtmOnly") <label>Atm Only</label></div>
+                    <div class="checkbox">@Html.CheckBox("NoAtm") <label>No Atm</label></div>
+
+
+
+                </div>
+                <div class="form-horizontal">
+                    @foreach (var property in ViewData.ModelMetadata.Properties)
+
+                {
+                    switch (property.PropertyName)
+                    {
+                        case "ImageMimeType":
+
+                                @Html.Hidden(property.PropertyName)
+                                break;
+                            case "Id":
+                            case "ImageData":
+                            case "LocHours":
+                            case "LocServices":
+                            case "AtmOnly":
+                            case "NoAtm":
+                            case "LocPhoneNums":
+                                break;
+                            case "State":
+                                <div class="form-group">
+                                    <label for="@property.PropertyName" class="col-sm-3 control-label">@(property.DisplayName ?? property.PropertyName)</label>
+                                    <div class="col-sm-9">
+                                        @Html.DropDownListFor(x => x.State, TalmerMaint.Domain.Extensions.CentralLibrary.StatesDropdown, new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                break;
+                            default:
+
+                                <div class="form-group">
+                                    <label for="@property.PropertyName" class="col-sm-3 control-label">@(property.DisplayName ?? property.PropertyName)</label>
+                                    <div class="col-sm-9">
+                                        @if (property.PropertyName == "Description")
+                                        {
+                                            @Html.TextArea(property.PropertyName, null, new { @class = "form-control ", rows = 5 })
+                                        }
+                                        else
+                                        {
+                                            @Html.TextBox(property.PropertyName, null, new { @class = "form-control" })
+                                        }
+                                        @Html.ValidationMessage(property.PropertyName)
+                                    </div>
+                                </div>
+                                break;
+                        }
+
+                    }
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Image</label>
+                        <div class="col-sm-9" style="position:relative;">
+
+                            <a class='btn' href='javascript:;'>Choose File...</a><input type="file" name="Image" size="40" style="position:absolute;z-index:2;top:0;left:0;filter:alpha(opacity=0);opacity:0;background-color:transparent;color:transparent;" onchange='$("#upload-file-info").html($(this).val());' />
+                            <span class="label label-info" id="upload-file-info"></span><br />
+                            @if (Model.ImageData == null)
+                            {
+                                <div class="form-control-static">No Image has been uploaded</div>
+
+                            }
+                            else
+                            {
+                                <img class="img-thumbnail loc-img" width="150" height="150" src="@Url.Action("GetImage", "Locations", new { Model.Id })" alt="location thumbnail" />
+                                <a class="btn btn-default removeImg">Delete Image</a>
+                            }
+                        </div>
+
+                    </div>
+                </div>
+                <input type="submit" value="Save" class="btn btn-primary" />
+                @Html.ActionLink("Cancel and return to List", "Index", null, new { @class = "btn btn-default" })
+            }
+        </div>
+        <div class="col-md-5">
+            <h3>Hours</h3>
+            <div class="sublinks" data-toggle="tooltip" data-placement="left" title="">
+                @Html.ActionLink("Manage Branch Hours", "Manage", "LocHours", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm margin-bottom-ten sublinks" })
+            </div>
+            @if (Model.LocHours != null)
+            {
+
+                @Html.Partial("LocHourSummary", Model.LocHours)
+            }
+
+
+            <h3>Phones</h3>
+            <div class="sublinks" data-toggle="tooltip" data-placement="left" title="">
+                @Html.ActionLink("Manage Numbers and Extensions", "Manage", "LocPhoneNums", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm margin-bottom-ten sublinks" })
+            </div>
+            @if (Model.LocPhoneNums != null)
+            {
+
+                @Html.Partial("LocPhoneNumSummary", Model.LocPhoneNums)
+            }
+
+            <h3>Services</h3>
+            <div class="sublinks" data-toggle="tooltip" data-placement="left" title="">
+                @Html.ActionLink("Manage Services", "Manage", "LocServices", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm margin-bottom-ten sublinks" })
+            </div>
+            @if (Model.LocServices != null)
+            {
+
+                @Html.Partial("LocServicesSummary", Model.LocServices)
+            }
+
+        </div>
+    </div>
+
+</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(document).on("click", ".removeImg", function () {
+                $('.loc-img').remove();
+                $("#ImageMimeType").val("deleted");
+
+            });
+
+
+            if ('@Model.AtmOnly' == 'True'){
+                        $('#NoAtm').attr("disabled", 'disabled');
+        }
+            if ('@Model.NoAtm' == 'True'){
+                    $('#AtmOnly').attr("disabled", 'disabled');
+        }
+            $(document).on("click", "#AtmOnly", function () {
+                var target = $("#NoAtm");
+                if (document.getElementById('AtmOnly').checked) {
+
+                    target.addClass("Disabled");
+                    target.attr("disabled", 'disabled');
+                    if ($("#NoAtm:checked").length) {
+                        target.prop('checked', false);
+
+                    }
+                } else {
+                    target.removeAttr('disabled');
+                }
+            });
+            $(document).on("click", "#NoAtm", function () {
+                var target = $("#AtmOnly");
+                if (document.getElementById('NoAtm').checked) {
+
+                    target.addClass("Disabled");
+                    target.attr("disabled", 'disabled');
+                    if ($("#AtmOnly:checked").length) {
+                        target.prop('checked', false);
+
+                    }
+                } else {
+                    target.removeAttr('disabled');
+                }
+            });
+
+            $(":input").change(function () {
+                $(".sublinks").prop('title', 'Please save your changes before leaving the page');
+                $(".sublinks").tooltip();
+                $('.sublinks .btn').addClass("disabled");
+            });
+        });
+    </script>
+}

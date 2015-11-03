@@ -1,0 +1,53 @@
+﻿@using TalmerMaint.Domain.Entities
+@model TalmerMaint.Domain.Entities.Rates
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div class="row">
+    <h4>Rates</h4>
+    <hr />
+    <div class="col-md-4">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.PageName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.PageName)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.EffectiveDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.EffectiveDate)
+            </dd>
+
+        </dl>
+    </div>
+    <div class="col-md-8">
+
+
+
+            <table class="table table-striped">
+                <tr>
+
+                    @foreach (RateTitle t in Model.RateTitles)
+                    {
+                        <th>@t.Name @Html.ActionLink("Edit","Edit","RateTitles", new { id = t.Id }, new { @class = "btn btn-xs btn-default" })</th>
+                    }
+                </tr>
+            </table>
+    </div>
+</div>
+<p class="btn-group text-right">
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Manage Table Headings", "Create", "RateTitles", new { id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Add Rates", "Create", "RateRows", new { id = Model.Id }, new { @class = "btn btn-default" })
+    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger" })
+</p>

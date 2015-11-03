@@ -1,0 +1,61 @@
+﻿@using TalmerMaint.Domain.Entities
+@model TalmerMaint.WebUI.Models.LocationServicesViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Add Services for @Model.Location.Name</h2>
+@Html.ActionLink("Return to location", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
+<hr />
+<div class="col-md-7">
+    @Html.Partial("LocServicesSummary", Model.Location.LocServices)
+</div>
+<div class="col-md-5">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(h => h.LocServices.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(h => h.LocServices.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(h => h.LocServices.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(h => h.LocServices.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    @Html.EditorFor(h => h.LocServices.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(h => h.LocServices.Description, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(h => h.LocServices.IconClassName, htmlAttributes: new { @class = "control-label col-md-3 icon" })
+                <div class="col-md-9">
+                    @Html.EditorFor(h => h.LocServices.IconClassName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(h => h.LocServices.IconClassName, "", new { @class = "text-danger" })
+                    <br />Check out <a href="https://fortawesome.github.io/Font-Awesome/cheatsheet/" target="_blank" >Font Awesome</a> for your class names, <strong>only include</strong> the fa-[icon name] not the full &lt;i class="fa fa-[icon name]"&gt;&lt;/i&gt; examples they provide.
+                </div>
+            </div>
+
+
+
+            <input name="LocServices.LocationId" type="hidden" value="@Model.Location.Id" />
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+
+    <div>
+
+    </div>
+</div>
+

@@ -1,0 +1,41 @@
+﻿@using TalmerMaint.Domain.Entities
+@model IEnumerable<AppUser>
+@{
+    ViewBag.Title = "User Accounts";
+}
+
+<h2>User Accounts</h2>
+<table class="table table-striped">
+    <tr>
+        
+        <th>Name</th>
+        <th>Email</th>
+        <th></th>
+    </tr>
+    @if (Model.Count() == 0)
+    {
+        <tr><td colspan="4" class="text-center">No User Accounts</td></tr>
+    }
+    else
+    {
+        foreach (AppUser user in Model)
+        {
+            <tr>
+                
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>
+                    @using (Html.BeginForm("Delete", "Users",
+                                        new { id = user.Id }))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = user.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+        }
+    }
+</table>
+@Html.ActionLink("Add New User", "Create", null, new { @class= "btn btn-primary"})
+

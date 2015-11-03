@@ -1,0 +1,49 @@
+﻿@using TalmerMaint.Domain.Entities
+@model TalmerMaint.Domain.Entities.LocPhoneNums
+
+<table class="table table-striped">
+    <tr>
+        <th>Phone Name</th>
+        <th>Number</th>
+        <th>Actions</th>
+    </tr>
+    @if (Model.LocPhoneExts == null || !Model.LocPhoneExts.Any())
+    {
+        if (Model == null)
+        {
+            <tr><td colspan="3" class="text-center">Extensions can only be defined when the location has been saved</td></tr>
+
+        }
+        else
+        {
+            <tr><td colspan="3" class="text-center">No Extensions have been defined</td></tr>
+
+        }
+
+    }
+    else
+    {
+        foreach (LocPhoneExts exts in Model.LocPhoneExts)
+        {
+            <tr>
+                <td>@exts.Name</td>
+                <td>@exts.Number</td>
+                <td>
+                   @using (Html.BeginForm("Delete", "LocPhoneExts",
+                                         new { id = exts.Id }))
+                   { 
+                        @Html.AntiForgeryToken()
+                        @Html.ActionLink("Edit", "Edit", "LocPhoneExts", new { id = exts.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+
+        }
+
+    }
+    <tr>
+        <td colspan="3" class="text-right"><a href="~/LocPhoneExts/Manage/@Model.Id"><i class='fa fa-plus-square'></i></a></td>
+    </tr>
+</table>

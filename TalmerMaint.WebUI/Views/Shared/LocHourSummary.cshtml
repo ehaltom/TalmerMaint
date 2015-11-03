@@ -1,0 +1,44 @@
+﻿@using TalmerMaint.Domain.Entities
+@model ICollection<LocHours>
+<table class="table table-striped">
+    <tr>
+        <th>Hour Title</th>
+        <th>Hours</th>
+        <th>Actions</th>
+    </tr>
+    @if (Model == null || !Model.Any())
+    {
+        if (Model == null)
+        {
+            <tr><td colspan="3" class="text-center">Hours can only be defined when the location has been saved</td></tr>
+
+        }
+        else
+        {
+            <tr><td colspan="3" class="text-center">No Hours have been defined</td></tr>
+
+        }
+
+    }
+    else
+    {
+        foreach (LocHours hours in Model)
+        {
+            <tr>
+                <td>@hours.HoursTitle</td>
+                <td>@hours.Hours</td>
+                <td>
+                    @using (Html.BeginForm("Delete", "LocHours",
+                                        new { id = hours.Id, locId = hours.LocationId }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ActionLink("Edit", "Edit", "LocHours", new { id = hours.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                        <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                    }
+                </td>
+            </tr>
+
+        }
+    }
+</table>

@@ -1,0 +1,61 @@
+﻿@using TalmerMaint.Domain.Entities
+@model TalmerMaint.WebUI.Models.RatesTitlesViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create Table Title for @Model.Rates.PageName</h2>
+<div class="col-md-6">
+    <h3>Add Title</h3>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            <input name="RateTitle.RatesId" type="hidden" value="@Model.Rates.Id" />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.RateTitle.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RateTitle.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RateTitle.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RateTitle.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.RateTitle.Priority, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.RateTitle.Priority, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Details","Rates", new { id = Model.Rates.Id }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="col-md-6">
+    <h3>Defined Table Titles</h3>
+    <table class="table table-striped">
+        <tr><th>Name</th><th>Priority</th><th>Actions</th></tr>
+        @foreach (RateTitle t in Model.Rates.RateTitles)
+        {
+            <tr>
+                <td>@t.Name</td>
+                <td>@t.Priority</td>
+                <td class="btn-group">
+                    @Html.ActionLink("Edit", "Edit", new { id = t.Id }, new { @class = "btn btn-default btn-xs" })
+                    @Html.ActionLink("Details", "Details", new { id = t.Id }, new { @class = "btn btn-default btn-xs" }) 
+                    @Html.ActionLink("Delete", "Delete", new { id = t.Id }, new { @class = "btn btn-danger btn-xs" })
+                </td>
+    </tr>
+        }
+    </table>
+</div>
+

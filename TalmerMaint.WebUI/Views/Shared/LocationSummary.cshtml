@@ -1,0 +1,36 @@
+﻿@using TalmerMaint.Domain.Entities
+@model IEnumerable<Location>
+
+<div id="locList">
+    @foreach (var l in Model)
+            {
+        
+
+
+
+
+        <div class="clearfix loc-row" style="border-bottom:1px solid #eee;padding-bottom:10px;margin-bottom:10px;">
+            <div class="col-lg-4">
+
+                <h3>@Html.ActionLink(l.Name, "Edit", new { id = l.Id }) <small>@l.Subtitle</small></h3>
+            </div>
+            <div class="col-lg-4">
+                <address>
+                    @l.Address1,
+                    @if (!string.IsNullOrEmpty(l.Address2))
+                    { @l.Address2;
+                    }
+                    @l.City, @l.State, @l.Zip
+                </address>
+
+            </div>
+            <div class="col-lg-4 btn-group">
+                @using (Html.BeginForm("Delete", "Locations"))
+                {
+                    @Html.Hidden("Id", l.Id)
+                    <input type="submit" class="btn btn-danger btn-xs" value="Delete" />
+                }
+            </div>
+        </div>
+    }
+</div>
