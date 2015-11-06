@@ -194,6 +194,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\LocHourCatsController.cs" />
     <Compile Include="Controllers\LocHoursController.cs" />
     <Compile Include="Controllers\LocPhoneExtsController.cs" />
     <Compile Include="Controllers\LocPhoneNumsController.cs" />
@@ -220,6 +221,7 @@
       <DependentUpon>201510272043504_eric.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\LocationCatsViewModel.cs" />
     <Compile Include="Models\LocationHoursViewModel.cs" />
     <Compile Include="Models\LocationListViewModel.cs" />
     <Compile Include="Models\LocationPhoneExtensionsViewModel.cs" />
@@ -286,6 +288,8 @@
     <Content Include="Views\RateRows\Details.cshtml" />
     <Content Include="Views\RateRows\Edit.cshtml" />
     <Content Include="Views\RateRows\Index.cshtml" />
+    <Content Include="Views\LocHourCats\Manage.cshtml" />
+    <Content Include="Views\LocHourCats\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

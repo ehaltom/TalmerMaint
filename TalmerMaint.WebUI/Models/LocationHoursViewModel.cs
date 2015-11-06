@@ -9,6 +9,7 @@ namespace TalmerMaint.WebUI.Models
     public class LocationHoursViewModel
     {
         public Location Location { get; set; }
+        public LocHourCats Cats { get; set; }
         public LocHours LocHours { get; set; }
     }
 }

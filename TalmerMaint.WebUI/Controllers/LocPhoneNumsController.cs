@@ -10,22 +10,27 @@ using System.Web.Mvc;
 using TalmerMaint.Domain.Concrete;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
+using TalmerMaint.Domain.Abstract;
 
 namespace TalmerMaint.WebUI.Controllers
 {
     public class LocPhoneNumsController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        private ILocationRepository context;
+        EFDbContext db = new EFDbContext();
 
-
+        public LocPhoneNumsController(ILocationRepository locationRepository)
+        {
+            this.context = locationRepository;
+        }
 
         // GET: LocPhoneNums/Create
         public ActionResult Manage(int id)
         {
             LocationPhonesViewModel model = new LocationPhonesViewModel
             {
-                Location = db.Locations
-                .Find(id),
+                Location = context.Locations
+                .FirstOrDefault(p => p.Id == id),
 
                 LocPhoneNums = new LocPhoneNums()
 

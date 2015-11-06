@@ -13,6 +13,7 @@ using TalmerMaint.WebUI.Models;
 
 namespace TalmerMaint.WebUI.Controllers
 {
+    [Authorize(Roles = "RatesAdmin")]
     public class RateRowsController : Controller
     {
         private EFDbContext db = new EFDbContext();

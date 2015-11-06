@@ -7,15 +7,22 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using TalmerMaint.Domain.Concrete;
+using TalmerMaint.Domain.Abstract;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
+using TalmerMaint.Domain.Concrete;
 
 namespace TalmerMaint.WebUI.Controllers
 {
     public class LocServicesController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        private ILocationRepository context;
+        EFDbContext db = new EFDbContext();
+
+        public LocServicesController(ILocationRepository locationRepository)
+        {
+            this.context = locationRepository;
+        }
 
 
 
@@ -24,10 +31,10 @@ namespace TalmerMaint.WebUI.Controllers
         {
             LocationServicesViewModel model = new LocationServicesViewModel
             {
-                Location = db.Locations
-                .Find(id),
+                Location = context.Locations
+                .FirstOrDefault(p => p.Id == id),
 
-                LocServices = new LocServices()
+            LocServices = new LocServices()
 
             };
             return View(model);

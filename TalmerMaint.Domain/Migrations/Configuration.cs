@@ -32,16 +32,22 @@ Name = "Phone",
 Number = "810-794-4958"
 }
 },
-               LocHours = new List<LocHours>
+               LocHourCats = new List<LocHourCats>
 {
-new LocHours{
-HoursTitle = "Mon - Fri",
-Hours = "9am-5pm"
-},
-new LocHours{
-HoursTitle = "Sat",
-Hours = "9am-12pm"
-}
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
+    {
+        new LocHours{
+            Days = "Mon - Fri",
+            Hours = "9am-5pm"
+        },
+        new LocHours{
+            Days = "Sat",
+            Hours = "9am-12pm"
+        }
+    }
+    }
 },
                AtmOnly = false,
                NoAtm = false,
@@ -62,20 +68,26 @@ Name = "Phone",
 Number = "440-406-5090"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -96,24 +108,30 @@ Name = "Phone",
 Number = "734-887-3100"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
 {
-new LocHours{
-HoursTitle = "Mon - Thurs",
-Hours = "9am-5pm"
-},
-new LocHours{
-HoursTitle = "Fri",
-Hours = "9am-5pm"
-},
-new LocHours{
-HoursTitle = "Drive Thru",
-Hours = "9am-6pm"
-},
-new LocHours{
-HoursTitle = "Sat",
-Hours = "9am-12pm"
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
+        {
+        new LocHours{
+        Days = "Mon - Thurs",
+        Hours = "9am-5pm"
+        },
+        new LocHours{
+        Days = "Fri",
+        Hours = "9am-5pm"
+        },
+        new LocHours{
+        Days = "Drive Thru",
+        Hours = "9am-6pm"
+        },
+        new LocHours{
+        Days = "Sat",
+        Hours = "9am-12pm"
+        }
 }
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -134,12 +152,18 @@ Name = "Phone",
 Number = "248-370-8200"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -160,24 +184,30 @@ Name = "Phone",
 Number = "330-314-1360"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -198,32 +228,38 @@ Name = "Phone",
 Number = "989-269-9211"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -244,20 +280,26 @@ Name = "Phone",
 Number = "248-647-1026"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -278,20 +320,26 @@ Name = "Phone",
 Number = "330-965-6972"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat Drive-Thru",
+Days = "Sat Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -312,20 +360,26 @@ Name = "Phone",
 Number = "810-220-1199"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -346,16 +400,22 @@ Name = "Phone",
 Number = "330-314-1288"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -376,24 +436,30 @@ Name = "Phone",
 Number = "330-533-8530"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -414,28 +480,34 @@ Name = "Phone",
 Number = "989-673-6152"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "8:30am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -457,12 +529,18 @@ Name = "Phone",
 Number = "312-912-6000"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30-5:00"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -484,12 +562,18 @@ Name = "Phone",
 Number = "513-232-0800"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -511,12 +595,18 @@ Name = "Phone",
 Number = "800-456-1500"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -550,20 +640,26 @@ Name = "Phone",
 Number = "330-314-1275"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -584,20 +680,26 @@ Name = "Phone",
 Number = "810-653-5383"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "Drive-Thru"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -619,12 +721,18 @@ Name = "Phone",
 Number = "937-436-5020"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30am-5:00pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -646,16 +754,22 @@ Name = "Phone",
 Number = "313-967-9700"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30am-4:30pm"
 },
 new LocHours{
-HoursTitle = "ATM accessible only during banking center",
+Days = "ATM accessible only during banking center",
 Hours = "hours"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -676,12 +790,18 @@ Name = "Phone",
 Number = "248-269-6293"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-4:30pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -702,16 +822,22 @@ Name = "Phone",
 Number = "614-761-2302"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -732,12 +858,18 @@ Name = "Phone",
 Number = "574-295-9600"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5:30pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -758,20 +890,26 @@ Name = "Phone",
 Number = "440-406-5070"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -792,20 +930,26 @@ Name = "Phone",
 Number = "440-406-5080"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -826,16 +970,22 @@ Name = "Phone",
 Number = "440-406-5100"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4:30pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5:00pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -856,20 +1006,26 @@ Name = "Phone",
 Number = "440-406-5086"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -890,16 +1046,22 @@ Name = "Phone",
 Number = "248-615-0407"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -920,12 +1082,18 @@ Name = "Phone",
 Number = "248-848-9030"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -947,12 +1115,18 @@ Name = "Phone",
 Number = "248-855-0550"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -973,24 +1147,30 @@ Name = "Phone",
 Number = "810-232-3810"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1011,24 +1191,30 @@ Name = "Phone",
 Number = "810-736-0440"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1049,20 +1235,26 @@ Name = "Phone",
 Number = "810-732-6360"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1083,16 +1275,22 @@ Name = "Phone",
 Number = "810-659-7712"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1113,20 +1311,26 @@ Name = "Phone",
 Number = "810-385-2672"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1147,28 +1351,34 @@ Name = "Phone",
 Number = "989-652-1129"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "8:30am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1189,16 +1399,22 @@ Name = "Phone",
 Number = "574-533-2006"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1219,20 +1435,26 @@ Name = "Phone",
 Number = "440-406-5075"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1253,16 +1475,22 @@ Name = "Phone",
 Number = "616-846-1930"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "Drive-Thru"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1283,12 +1511,18 @@ Name = "Phone",
 Number = "616-974-0200"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1309,12 +1543,18 @@ Name = "Phone",
 Number = "313-647-0666"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1335,20 +1575,26 @@ Name = "Phone",
 Number = "313-640-9051"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1369,20 +1615,26 @@ Name = "Phone",
 Number = "313-875-2000"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1403,28 +1655,34 @@ Name = "Phone",
 Number = "989-479-3255"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "8:30am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1446,12 +1704,18 @@ Name = "Phone",
 Number = "702-990-5900"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-4pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -1472,12 +1736,18 @@ Name = "Phone",
 Number = "616-394-9600"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1498,16 +1768,22 @@ Name = "Phone",
 Number = "810-724-0518"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1528,16 +1804,22 @@ Name = "Phone",
 Number = "810-982-8505"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1558,20 +1840,26 @@ Name = "Phone",
 Number = "810-245-4509"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1592,20 +1880,26 @@ Name = "Phone",
 Number = "810-359-7947"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1626,16 +1920,22 @@ Name = "Phone",
 Number = "734 805-4600"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1656,20 +1956,26 @@ Name = "Phone",
 Number = "248-548-2900"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1690,20 +1996,26 @@ Name = "Phone",
 Number = "810-765-3501"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1724,16 +2036,22 @@ Name = "Phone",
 Number = "810-364-5757"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1754,20 +2072,26 @@ Name = "Phone",
 Number = "586-783-4500"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1788,12 +2112,18 @@ Name = "Phone",
 Number = "231-737-4431"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1814,24 +2144,30 @@ Name = "Phone",
 Number = "330-314-1390"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1852,20 +2188,26 @@ Name = "Phone",
 Number = "330-314-1285"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1887,12 +2229,18 @@ Name = "Phone",
 Number = "440-779-0807"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -1913,20 +2261,26 @@ Name = "Phone",
 Number = "440-406-5065"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -1947,12 +2301,18 @@ Name = "Phone",
 Number = "734-805-4613"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -1973,24 +2333,30 @@ Name = "Phone",
 Number = "330-314-1395"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2011,24 +2377,30 @@ Name = "Phone",
 Number = "989-428-4111"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "TH",
+Days = "TH",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2049,16 +2421,22 @@ Name = "Phone",
 Number = "810-985-5181"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2087,12 +2465,18 @@ Name = "Wealth Management",
 Number = "810-966-8710"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2113,20 +2497,26 @@ Name = "Phone",
 Number = "810-984-1578"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2147,24 +2537,30 @@ Name = "Phone",
 Number = "269-323-2200"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2185,20 +2581,26 @@ Name = "Phone",
 Number = "330-298-0510"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2219,12 +2621,18 @@ Name = "Phone",
 Number = "248-608-5100"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-4pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2246,12 +2654,18 @@ Name = "Phone",
 Number = "301-279-5150"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -2272,20 +2686,26 @@ Name = "Phone",
 Number = "330-298-2030"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2307,12 +2727,18 @@ Name = "Phone",
 Number = "989-316-7227"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = true,
@@ -2333,20 +2759,26 @@ Name = "Phone",
 Number = "810-648-3322"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "8:30am-"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2367,28 +2799,34 @@ Name = "Phone",
 Number = "989-883-2400"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-5pm"
 },
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "8:30am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "8:30am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2409,20 +2847,26 @@ Name = "Phone",
 Number = "586-739-4033"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2443,12 +2887,18 @@ Name = "Phone",
 Number = "440-914-0683"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2469,20 +2919,26 @@ Name = "Phone",
 Number = "248-358-9540"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2503,16 +2959,22 @@ Name = "Phone",
 Number = "810-329-4705"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2533,20 +2995,26 @@ Name = "Phone",
 Number = "586-939-2834"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2567,16 +3035,22 @@ Name = "Phone",
 Number = "248-244-6800"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "ATM accessible only during banking center",
+Days = "ATM accessible only during banking center",
 Hours = "hours"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2597,16 +3071,22 @@ Name = "Phone",
 Number = "586-777-7010"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Fri",
+Days = "Mon - Fri",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2627,16 +3107,22 @@ Name = "Phone",
 Number = "330-314-1270"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "F",
+Days = "F",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Tue - Thurs",
+Days = "Tue - Thurs",
 Hours = "9am-4pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2657,24 +3143,30 @@ Name = "Phone",
 Number = "330-314-1300"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2695,24 +3187,30 @@ Name = "Phone",
 Number = "330-314-1290"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-1pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2733,20 +3231,26 @@ Name = "Phone",
 Number = "330-314-1280"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2767,16 +3271,22 @@ Name = "Phone",
 Number = "248-669-5133"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-5pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2797,20 +3307,26 @@ Name = "Phone",
 Number = "330-314-1410"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2831,24 +3347,30 @@ Name = "Phone",
 Number = "330-314-1375"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat",
+Days = "Sat",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2870,16 +3392,22 @@ Name = "Phone",
 Number = "330-314-1370"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-4:30pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,
@@ -2900,24 +3428,30 @@ Name = "Phone",
 Number = "330-314-1380"
 }
 },
-    LocHours = new List<LocHours>
+    LocHourCats = new List<LocHourCats>
+{
+     new LocHourCats{
+          Name = "Hours",
+          LocHours = new List<LocHours>
 {
 new LocHours{
-HoursTitle = "Mon - Thurs",
+Days = "Mon - Thurs",
 Hours = "9am-4pm"
 },
 new LocHours{
-HoursTitle = "Drive Thru",
+Days = "Drive Thru",
 Hours = "9am-5pm"
 },
 new LocHours{
-HoursTitle = "Fri",
+Days = "Fri",
 Hours = "9am-6pm"
 },
 new LocHours{
-HoursTitle = "Sat-Drive-Thru",
+Days = "Sat-Drive-Thru",
 Hours = "9am-12pm"
 }
+}
+    }
 },
     AtmOnly = false,
     NoAtm = false,

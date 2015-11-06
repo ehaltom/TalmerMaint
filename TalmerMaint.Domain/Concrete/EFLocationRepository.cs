@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using TalmerMaint.Domain.Abstract;
 using TalmerMaint.Domain.Entities;
+using System.Linq;
 
 namespace TalmerMaint.Domain.Concrete
 {
@@ -9,7 +12,39 @@ namespace TalmerMaint.Domain.Concrete
     {
         private EFDbContext context = new EFDbContext();
 
-        public IEnumerable<Location> Locations { get { return context.Locations; } }
+        public Location Find(int id)
+        {
+            return context.Locations.Find(id);
+        }
+        public IEnumerable<Location> Locations { get { return
+                    context.Locations
+                        .Include("LocHourCats")
+                        .Include("LocPhoneNums")
+                        .Include("LocServices")
+                        .ToList();
+                    } }
+       
+        public IEnumerable<LocServices> LocServicesByLocId(int id)
+        {
+            return context.LocServices.Where(l => l.LocationId == id).ToList();
+        }
+        public IEnumerable<LocPhoneNums> LocPhoneNumsByLocId(int id)
+        {
+            return context.LocPhoneNums.Where(l => l.LocationId == id).ToList();
+        }
+        public IEnumerable<LocHourCats> LocHourCatsByLocId(int id)
+        {
+            return context.LocHourCats
+                .Include("LocHours")
+                .Where(l => l.LocationId == id).ToList();
+        }
+        public IEnumerable<LocHourCats> LocHoursByLocId(int id)
+        {
+            return context.LocHourCats
+                .Include("LocHours")
+                .Where(l => l.LocationId == id)
+                .ToList();
+        }
 
         public void SaveLocation(Location loc, bool addImg)
         {
@@ -38,8 +73,8 @@ namespace TalmerMaint.Domain.Concrete
                     that Josh set up.
                     ****/
                     if(addImg) { 
-                    dbEntry.ImageData = loc.ImageData;
-                    dbEntry.ImageMimeType = loc.ImageMimeType;
+                        dbEntry.ImageData = loc.ImageData;
+                        dbEntry.ImageMimeType = loc.ImageMimeType;
                     }
                     dbEntry.Description = loc.Description;
                     dbEntry.ManagerName = loc.ManagerName;
@@ -47,9 +82,52 @@ namespace TalmerMaint.Domain.Concrete
                     dbEntry.AtmOnly = loc.AtmOnly;
                 }
             }
+            SaveXMLFile();
             context.SaveChanges();
         }
-
+        private void SaveXMLFile()
+        {
+            DataTable locTable = new DataTable();
+            locTable.TableName = "Locations";
+            locTable.Columns.Add("Id", typeof(int));
+            locTable.Columns.Add("Name", typeof(string));
+            locTable.Columns.Add("Subtitle", typeof(string));
+            locTable.Columns.Add("Address1", typeof(string));
+            locTable.Columns.Add("Address2", typeof(string));
+            locTable.Columns.Add("City", typeof(string));
+            locTable.Columns.Add("State", typeof(string));
+            locTable.Columns.Add("Zip", typeof(string));
+            locTable.Columns.Add("AtmOnly", typeof(bool));
+            locTable.Columns.Add("NoAtm", typeof(bool));
+            locTable.Columns.Add("Latitude", typeof(double));
+            locTable.Columns.Add("Longitude", typeof(double));
+            locTable.Columns.Add("ImageData", typeof(byte[]));
+            locTable.Columns.Add("ImageMimeType", typeof(string));
+            locTable.Columns.Add("ManagerName", typeof(string));
+            foreach (Location loc in context.Locations)
+            {
+                
+                locTable.Rows.Add(new object[] {
+                    loc.Id,
+                    loc.Name,
+                    loc.Subtitle,
+                    loc.Address1,
+                    loc.Address2,
+                    loc.City,
+                    loc.State,
+                    loc.Zip,
+                    loc.AtmOnly,
+                    loc.NoAtm,
+                    loc.Latitude,
+                    loc.Longitude,
+                    loc.ImageData,
+                    loc.ImageMimeType,
+                    loc.ManagerName});
+                
+                
+            }
+            locTable.WriteXml("C:/SourceControl_Git/Locations.xml");
+        }
         public Location DeleteLocation(int id)
         {
             Location dbEntry = context.Locations.Find(id);
@@ -60,5 +138,7 @@ namespace TalmerMaint.Domain.Concrete
             }
             return dbEntry;
         }
+
+
     }
 }

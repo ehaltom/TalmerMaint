@@ -1,35 +1,43 @@
 ﻿@using TalmerMaint.Domain.Entities
-@model ICollection<LocHours>
+@model IEnumerable<LocHourCats>
 <table class="table table-striped">
-    <tr>
-        <th>Hour Title</th>
-        <th>Hours</th>
-        <th>Actions</th>
-    </tr>
+
     @if (Model == null || !Model.Any())
     {
         if (Model == null)
         {
-            <tr><td colspan="3" class="text-center">Hours can only be defined when the location has been saved</td></tr>
+            <tr><td colspan="4" class="text-center">Hours can only be defined when the location has been saved</td></tr>
 
         }
         else
         {
-            <tr><td colspan="3" class="text-center">No Hours have been defined</td></tr>
+            <tr><td colspan="4" class="text-center">No Hours have been defined</td></tr>
 
         }
 
     }
     else
     {
-        foreach (LocHours hours in Model)
+        foreach (LocHourCats cats in Model)
         {
+            <tr><th>@cats.Name</th><th colspan="2"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add Hours</a></th><td>
+                @using (Html.BeginForm("Delete", "LocHourCats",
+                                            new { id = cats.Id, locId = cats.LocationId }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ActionLink("Edit", "Edit", "LocHourCats", new { id = cats.Id },
+                       new { @class = "btn btn-primary btn-xs" })
+                    <button class="btn btn-danger btn-xs" type="submit">Delete</button>
+                }
+                </td></tr>
+            foreach(LocHours hours in cats.LocHours) {
             <tr>
-                <td>@hours.HoursTitle</td>
+                <td></td>
+                <td>@hours.Days</td>
                 <td>@hours.Hours</td>
                 <td>
                     @using (Html.BeginForm("Delete", "LocHours",
-                                        new { id = hours.Id, locId = hours.LocationId }))
+                                        new { id = hours.Id, locId = hours.LocHourCatsId }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ActionLink("Edit", "Edit", "LocHours", new { id = hours.Id },
@@ -38,6 +46,7 @@
                     }
                 </td>
             </tr>
+            }
 
         }
     }

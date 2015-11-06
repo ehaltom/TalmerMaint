@@ -61,6 +61,7 @@ namespace TalmerMaint.WebUI.Controllers
         [HttpPost]
         public ActionResult Edit(Location loc, HttpPostedFileBase image = null)
         {
+            
             if (ModelState.IsValid)
             {
                 // without addImg the image is deleted when a location
@@ -90,7 +91,8 @@ namespace TalmerMaint.WebUI.Controllers
                 TempData["alert"] = string.Format("{0} has not been saved", loc.Name);
                 
             }
-            return View(loc);
+            Location retLoc = repo.Locations.FirstOrDefault(p => p.Id == loc.Id);
+            return View(retLoc);
         }
         [HttpPost]
         public ActionResult Delete(int id)

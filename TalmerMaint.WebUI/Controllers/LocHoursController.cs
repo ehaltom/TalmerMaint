@@ -9,21 +9,30 @@ using System.Web.Mvc;
 using TalmerMaint.Domain.Concrete;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
+using TalmerMaint.Domain.Abstract;
 
 namespace TalmerMaint.WebUI.Controllers
 {
     public class LocHoursController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        private ILocationRepository context;
+        EFDbContext db = new EFDbContext();
 
-      
+        public LocHoursController(ILocationRepository locationRepository)
+        {
+            this.context = locationRepository;
+        }
+
         // GET: LocHours/Create
         public ActionResult Manage(int id)
         {
+            LocHourCats cats = db.LocHourCats.Find(id);
+
             LocationHoursViewModel model = new LocationHoursViewModel
             {
                 Location = db.Locations
-                .Find(id),
+                .Find(cats.LocationId),
+                Cats = cats,
 
                 LocHours = new LocHours()
 
@@ -42,13 +51,14 @@ namespace TalmerMaint.WebUI.Controllers
             {
                 db.LocHours.Add(locHours);
                 db.SaveChanges();
-                TempData["message"] = string.Format("{0} was saved", locHours.HoursTitle);
+                TempData["message"] = string.Format("{0} was saved", locHours.Days);
             }
             else
             {
-                TempData["alert"] = string.Format("{0} was not saved", locHours.HoursTitle);
+                TempData["alert"] = string.Format("{0} was not saved", locHours.Days);
             }
-            return RedirectToAction("Manage", new { id = locHours.LocationId });
+
+            return RedirectToAction("Manage","LocHourCats", new { id =  locHours.LocHourCatsId});
         }
 
         // GET: LocHours/Edit/5
@@ -61,7 +71,7 @@ namespace TalmerMaint.WebUI.Controllers
             LocHours locHours = db.LocHours.Find(id);
             LocationHoursViewModel model = new LocationHoursViewModel
             {
-                Location = db.Locations.Find(locHours.LocationId),
+                Location = db.Locations.Find(locHours.LocHourCatsId),
                 LocHours = locHours
             };
             if (locHours == null)
@@ -76,17 +86,17 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,HoursTitle,Hours,LocationId")] LocHours locHours)
+        public ActionResult Edit(LocHours locHours)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(locHours).State = EntityState.Modified;
                 db.SaveChanges();
-                TempData["message"] = string.Format("{0} has been saved", locHours.HoursTitle);
-                return RedirectToAction("Manage", new { id = locHours.LocationId });
+                TempData["message"] = string.Format("{0} has been saved", locHours.Days);
+               
             }
-            TempData["alert"] = string.Format("{0} has not been saved", locHours.HoursTitle);
-            return View(locHours);
+            TempData["alert"] = string.Format("{0} has not been saved", locHours.Days);
+            return RedirectToAction("Manage", new { id = locHours.LocHourCatsId });
         }
 
        

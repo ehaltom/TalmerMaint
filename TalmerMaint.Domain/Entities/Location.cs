@@ -67,8 +67,8 @@ namespace TalmerMaint.Domain.Entities
         [MaxLength(200, ErrorMessage = "You have exceeded the maximum character limit (200)")]
         public string ManagerName { get; set; }
 
-        public virtual ICollection<LocHours> LocHours { get; set; }
-        public virtual ICollection<LocPhoneNums> LocPhoneNums { get; set; }
-        public virtual ICollection<LocServices> LocServices { get; set; }
+        public ICollection<LocHourCats> LocHourCats { get; set; }
+        public ICollection<LocPhoneNums> LocPhoneNums { get; set; }
+        public ICollection<LocServices> LocServices { get; set; }
     }
 }

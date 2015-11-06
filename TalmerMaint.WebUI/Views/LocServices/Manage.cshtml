@@ -1,5 +1,4 @@
-﻿@using TalmerMaint.Domain.Entities
-@model TalmerMaint.WebUI.Models.LocationServicesViewModel
+﻿@model TalmerMaint.WebUI.Models.LocationServicesViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -9,7 +8,9 @@
 @Html.ActionLink("Return to location", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
 <hr />
 <div class="col-md-7">
-    @Html.Partial("LocServicesSummary", Model.Location.LocServices)
+
+        @Html.Partial("LocServicesSummary", Model.Location.LocServices.OrderBy(m => m.Id))
+
 </div>
 <div class="col-md-5">
     @using (Html.BeginForm())

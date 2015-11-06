@@ -125,6 +125,7 @@
     <Compile Include="Concrete\EFLocationRepository.cs" />
     <Compile Include="Entities\AppUser.cs" />
     <Compile Include="Entities\Location.cs" />
+    <Compile Include="Entities\LocHourCats.cs" />
     <Compile Include="Entities\LocHours.cs" />
     <Compile Include="Entities\LocPhoneExts.cs" />
     <Compile Include="Entities\LocServices.cs" />
@@ -136,6 +137,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\TalmerMaint.WebUI\Views\Users\Create.cshtml">
+      <Link>Create.cshtml</Link>
+    </None>
     <None Include="App.config" />
     <Compile Include="Entities\LocPhoneNums.cs" />
     <None Include="packages.config">

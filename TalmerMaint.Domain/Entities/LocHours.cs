@@ -11,14 +11,17 @@ namespace TalmerMaint.Domain.Entities
     {
         public int Id { get; set; }
 
-        [Display(Name ="Title")]
-        [Required(ErrorMessage = "A title is required")]
-        [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
-        public string HoursTitle { get; set; }
 
-        [Required(ErrorMessage = "Hours is required")]
+
+        [Required(ErrorMessage = "The days field is required")]
+        [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
+        public string Days { get; set; }
+
+        [Required(ErrorMessage = "The hours filed is required")]
         [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
         public string Hours { get; set; }
-        public int LocationId { get; set; }
+
+
+        public int LocHourCatsId { get; set; }
     }
 }

@@ -335,7 +335,7 @@ namespace TalmerMaint.Tests
             LocationsController target = new LocationsController(mock.Object);
 
             //Arrange - create a location
-            Location loc = new Location { Name = "Test" };
+            Location loc = new Location { Id= 1, Name = "Test", Address1 = "123 N. Address", City = "Troy", Zip = "87654" };
 
             //Act - try to save the location
             ActionResult result = target.Edit(loc);
@@ -375,15 +375,15 @@ namespace TalmerMaint.Tests
         public void Can_Delete_Valid_Locations()
         {
             //Arrange - create a location
-            Location loc = new Location { Id = 2, Name = "Test" };
+            Location loc = new Location { Id = 2, Name = "Test", Address1 = "123 N. Address", City = "Troy", Zip = "87654" };
 
             // Arrange - create the mock repository
             Mock<ILocationRepository> mock = new Mock<ILocationRepository>();
             mock.Setup(m => m.Locations).Returns(new Location[]
             {
-                new Location {Id = 1 , Name = "L1" },
+                new Location {Id = 1 , Name = "L1", Address1 = "123 N. Address", City = "Troy", Zip="87654" },
                 loc,
-                new Location {Id = 3 , Name = "L3" }
+                new Location {Id = 3 , Name = "L3" , Address1 = "123 N. Address", City = "Troy", Zip="87654" }
             });
 
             // Arrange - create the controller

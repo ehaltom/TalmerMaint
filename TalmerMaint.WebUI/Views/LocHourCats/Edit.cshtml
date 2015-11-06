@@ -1,0 +1,41 @@
+﻿@model TalmerMaint.WebUI.Models.LocationCatsViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit Hour Title for @Model.Location.Name</h2>
+<div class="col-md-6">
+    @Html.Partial("LocHourSummary", Model.Location.LocHourCats)
+</div>
+<div class="col-md-6">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-horizontal">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(model => model.LocHourCats.Id)
+            @Html.HiddenFor(model => model.LocHourCats.LocationId)
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.LocHourCats.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.LocHourCats.Name, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.LocHourCats.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    @Html.ActionLink("Cancel", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+    <div>
+
+    </div>

@@ -39,7 +39,7 @@
                                 break;
                             case "Id":
                             case "ImageData":
-                            case "LocHours":
+                            case "LocHourCats":
                             case "LocServices":
                             case "AtmOnly":
                             case "NoAtm":
@@ -100,13 +100,11 @@
         <div class="col-md-5">
             <h3>Hours</h3>
             <div class="sublinks" data-toggle="tooltip" data-placement="left" title="">
-                @Html.ActionLink("Manage Branch Hours", "Manage", "LocHours", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm margin-bottom-ten sublinks" })
+                @Html.ActionLink("Manage Branch Hours", "Manage", "LocHourCats", new { id = Model.Id }, new { @class = "btn btn-primary btn-sm margin-bottom-ten sublinks" })
             </div>
-            @if (Model.LocHours != null)
-            {
 
-                @Html.Partial("LocHourSummary", Model.LocHours)
-            }
+
+                @Html.Partial("LocHourSummary", Model.LocHourCats)
 
 
             <h3>Phones</h3>

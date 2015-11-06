@@ -2,12 +2,14 @@
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Linq;
+using System.Data.SqlClient;
 
 namespace TalmerMaint.Domain.Concrete
 {
     public class EFDbContext : DbContext
     {
         public DbSet<Location> Locations { get; set; }
+        public DbSet<LocHourCats> LocHourCats { get; set; }
         public DbSet<LocHours> LocHours { get; set; }
         public DbSet<LocPhoneNums> LocPhoneNums { get; set; }
 
@@ -17,6 +19,7 @@ namespace TalmerMaint.Domain.Concrete
 
         public DbSet<Rates> Rates { get; set; }
         public DbSet<RateTitle> RateTitles { get; set; }
+        public DbSet<RateRow> RateRows { get; set; }
 
 
         public override int SaveChanges()
@@ -41,8 +44,10 @@ namespace TalmerMaint.Domain.Concrete
                     // Throw a new DbEntityValidationException with the improved exception message.
                     throw new DbEntityValidationException(exceptionMessage, ex.EntityValidationErrors);
                 }
+            
             }
 
-        public System.Data.Entity.DbSet<TalmerMaint.Domain.Entities.RateRow> RateRows { get; set; }
+        
+
     }
 }
