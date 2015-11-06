@@ -1,5 +1,4 @@
-﻿@using TalmerMaint.Domain.Entities
-@model TalmerMaint.WebUI.Models.LocationHoursViewModel
+﻿@model TalmerMaint.WebUI.Models.LocationHoursViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -31,6 +30,13 @@
                 <div class="col-md-10">
                     @Html.EditorFor(h => h.LocHours.Hours, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(h => h.LocHours.Hours, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(h => h.LocHours.Priority, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(h => h.LocHours.Priority, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(h => h.LocHours.Priority, "", new { @class = "text-danger" })
                 </div>
             </div>
 

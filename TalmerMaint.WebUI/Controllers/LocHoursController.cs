@@ -58,26 +58,25 @@ namespace TalmerMaint.WebUI.Controllers
                 TempData["alert"] = string.Format("{0} was not saved", locHours.Days);
             }
 
-            return RedirectToAction("Manage","LocHourCats", new { id =  locHours.LocHourCatsId});
+            return RedirectToAction("Manage","LocHours", new { id =  locHours.LocHourCatsId});
         }
 
         // GET: LocHours/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            LocHours locHours = db.LocHours.Find(id);
+            LocHours hours = db.LocHours
+                .Find(id);
+            LocHourCats cats = db.LocHourCats.Find(hours.LocHourCatsId);
+
             LocationHoursViewModel model = new LocationHoursViewModel
             {
-                Location = db.Locations.Find(locHours.LocHourCatsId),
-                LocHours = locHours
+                Location = db.Locations
+                .Find(cats.LocationId),
+                Cats = cats,
+
+                LocHours = hours
+
             };
-            if (locHours == null)
-            {
-                return HttpNotFound();
-            }
             return View(model);
         }
 
@@ -93,9 +92,12 @@ namespace TalmerMaint.WebUI.Controllers
                 db.Entry(locHours).State = EntityState.Modified;
                 db.SaveChanges();
                 TempData["message"] = string.Format("{0} has been saved", locHours.Days);
-               
-            }
+
+            }else
+            {
             TempData["alert"] = string.Format("{0} has not been saved", locHours.Days);
+
+            }
             return RedirectToAction("Manage", new { id = locHours.LocHourCatsId });
         }
 

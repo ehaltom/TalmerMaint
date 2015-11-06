@@ -1,0 +1,27 @@
+*.bak
+*.mdf
+*.ldf
+
+# User-specific files
+*.suo
+.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.pubxml
+
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+build/
+bld/
+[Bb]in/
+[Oo]bj/
+PublishProfiles/
+TestResults/
+.vs/.suo

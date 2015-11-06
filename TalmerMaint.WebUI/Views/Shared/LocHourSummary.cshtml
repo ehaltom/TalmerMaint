@@ -18,9 +18,10 @@
     }
     else
     {
+       
         foreach (LocHourCats cats in Model)
         {
-            <tr><th>@cats.Name</th><th colspan="2"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add Hours</a></th><td>
+            <tr><th>@cats.Name</th><th colspan="3"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add Hours</a></th><td>
                 @using (Html.BeginForm("Delete", "LocHourCats",
                                             new { id = cats.Id, locId = cats.LocationId }))
                 {
@@ -30,11 +31,13 @@
                     <button class="btn btn-danger btn-xs" type="submit">Delete</button>
                 }
                 </td></tr>
-            foreach(LocHours hours in cats.LocHours) {
+
+            foreach(LocHours hours in cats.LocHours.OrderBy(m=>m.Priority)) {
             <tr>
                 <td></td>
                 <td>@hours.Days</td>
                 <td>@hours.Hours</td>
+                <td>@hours.Priority</td>
                 <td>
                     @using (Html.BeginForm("Delete", "LocHours",
                                         new { id = hours.Id, locId = hours.LocHourCatsId }))

@@ -21,6 +21,10 @@ namespace TalmerMaint.Domain.Entities
         [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
         public string Hours { get; set; }
 
+        [Required(ErrorMessage = "The priority field is required")]
+        [Range(0, 1000)]
+        [Display(Name = "Order", Description = "Enter a number from 0 - 1000 to arrange these items in the proper order. Suggestion: use numbers in increments of 10 so if future additions are needed, there will be room to properly order them.")]
+        public int Priority { get; set; }
 
         public int LocHourCatsId { get; set; }
     }
