@@ -30,7 +30,8 @@ namespace TalmerMaint.WebUI.Controllers
 
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
             RateTitle rateTitle = await db.RateTitles.FindAsync(id);
             if (rateTitle == null)
@@ -84,7 +85,8 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
             RateTitle rateTitle = await db.RateTitles.FindAsync(id);
             if (rateTitle == null)
@@ -115,7 +117,8 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
             RateTitle rateTitle = await db.RateTitles.FindAsync(id);
             if (rateTitle == null)

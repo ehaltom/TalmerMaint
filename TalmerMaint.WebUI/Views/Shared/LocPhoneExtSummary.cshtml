@@ -30,8 +30,8 @@
                 <td>@exts.Number</td>
                 <td>
                    @using (Html.BeginForm("Delete", "LocPhoneExts",
-                                         new { id = exts.Id }))
-                   { 
+                                         new { id = exts.Id, locId = Model.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
+                   {
                         @Html.AntiForgeryToken()
                         @Html.ActionLink("Edit", "Edit", "LocPhoneExts", new { id = exts.Id },
                        new { @class = "btn btn-primary btn-xs" })

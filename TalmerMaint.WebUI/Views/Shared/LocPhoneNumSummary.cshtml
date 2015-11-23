@@ -36,8 +36,8 @@
                     }
                 </td>
                 <td>
-                    @using (Ajax.BeginForm("Delete", "LocPhoneNums",
-                                        new { id = phones.Id, locationId = phones.LocationId },null))
+                    @using (Html.BeginForm("Delete", "LocPhoneNums",
+                                        new { id = phones.Id, locationId = phones.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ActionLink("Edit", "Edit", "LocPhoneNums", new { id = phones.Id },

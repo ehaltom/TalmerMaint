@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using TalmerMaint.Domain.Concrete;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
 using TalmerMaint.Domain.Abstract;
@@ -16,7 +10,6 @@ namespace TalmerMaint.WebUI.Controllers
     public class LocHoursController : Controller
     {
         private ILocationRepository context;
-        EFDbContext db = new EFDbContext();
 
         public LocHoursController(ILocationRepository locationRepository)
         {
@@ -26,12 +19,12 @@ namespace TalmerMaint.WebUI.Controllers
         // GET: LocHours/Create
         public ActionResult Manage(int id)
         {
-            LocHourCats cats = db.LocHourCats.Find(id);
+            LocHourCats cats = context.LocHourCats.FirstOrDefault(h => h.Id == id);
 
             LocationHoursViewModel model = new LocationHoursViewModel
             {
-                Location = db.Locations
-                .Find(cats.LocationId),
+                Location = context.Locations
+                .FirstOrDefault(h => h.Id == cats.LocationId),
                 Cats = cats,
 
                 LocHours = new LocHours()
@@ -49,8 +42,7 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.LocHours.Add(locHours);
-                db.SaveChanges();
+                context.SaveLocHours(locHours);
                 TempData["message"] = string.Format("{0} was saved", locHours.Days);
             }
             else
@@ -64,14 +56,15 @@ namespace TalmerMaint.WebUI.Controllers
         // GET: LocHours/Edit/5
         public ActionResult Edit(int? id)
         {
-            LocHours hours = db.LocHours
-                .Find(id);
-            LocHourCats cats = db.LocHourCats.Find(hours.LocHourCatsId);
+            LocHours hours = context.LocHours
+                .FirstOrDefault(h => h.Id == id);
+
+            LocHourCats cats = context.LocHourCats.FirstOrDefault(h => h.Id == hours.LocHourCatsId);
 
             LocationHoursViewModel model = new LocationHoursViewModel
             {
-                Location = db.Locations
-                .Find(cats.LocationId),
+                Location = context.Locations
+                .FirstOrDefault(h => h.Id == cats.LocationId),
                 Cats = cats,
 
                 LocHours = hours
@@ -89,8 +82,7 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(locHours).State = EntityState.Modified;
-                db.SaveChanges();
+                context.SaveLocHours(locHours);
                 TempData["message"] = string.Format("{0} has been saved", locHours.Days);
 
             }else
@@ -108,19 +100,16 @@ namespace TalmerMaint.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int locId)
         {
-            LocHours locHours = db.LocHours.Find(id);
-            db.LocHours.Remove(locHours);
-            db.SaveChanges();
+            
+            context.DeleteLocHour(id);
+            
             TempData["message"] = String.Format("That item was deleted");
-            return RedirectToAction("Manage", new { id = locId });
+            return RedirectToAction("Edit","Locations", new { id = locId });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+
             base.Dispose(disposing);
         }
     }

@@ -5,8 +5,13 @@
 }
 
 <h2>Create Hours for @Model.Location.Name</h2>
-@Html.ActionLink("Return to location", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
-<hr />
+<ol class="breadcrumb">
+    <li>
+        @Html.ActionLink("Location", "Edit", "Locations", new { id = Model.Location.Id }, null)
+    </li>
+    <li>@Html.ActionLink("Hour Title", "Edit", "LocHourCats", new { id = Model.LocHours.LocHourCatsId },null)</li>
+    <li>Edit Hours</li>
+</ol>
 <div class="col-md-6">
     @Html.Partial("LocHourSummary", Model.Location.LocHourCats)
 </div>

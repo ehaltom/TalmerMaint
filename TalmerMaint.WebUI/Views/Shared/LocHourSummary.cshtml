@@ -23,7 +23,7 @@
         {
             <tr><th>@cats.Name</th><th colspan="3"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add Hours</a></th><td>
                 @using (Html.BeginForm("Delete", "LocHourCats",
-                                            new { id = cats.Id, locId = cats.LocationId }))
+                                            new { id = cats.Id, locId = cats.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ActionLink("Edit", "Edit", "LocHourCats", new { id = cats.Id },
@@ -40,7 +40,7 @@
                 <td>@hours.Priority</td>
                 <td>
                     @using (Html.BeginForm("Delete", "LocHours",
-                                        new { id = hours.Id, locId = hours.LocHourCatsId }))
+                                        new { id = hours.Id, locId = cats.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ActionLink("Edit", "Edit", "LocHours", new { id = hours.Id },

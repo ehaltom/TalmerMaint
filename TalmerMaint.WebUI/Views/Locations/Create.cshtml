@@ -3,16 +3,18 @@
 @{
     ViewBag.Title = Model.Name;
 }
-<div class="panel">
-    <div class="panel-heading">
 
         <h2>
             Add a new Location
 
         </h2>
-    </div>
-
-    <div class="panel-body">
+<ol class="breadcrumb">
+    <li>
+        @Html.ActionLink("Locations", "Index")
+    </li>
+    <li>Add Location</li>
+</ol>
+    <div class="row">
 
         <div class="col-md-7">
             @using (Html.BeginForm("Edit", "Locations", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -103,7 +105,6 @@
         </div>
     </div>
 
-</div>
 @section Scripts{
     <script>
         $(document).ready(function () {

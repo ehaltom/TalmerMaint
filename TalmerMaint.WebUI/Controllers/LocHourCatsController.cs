@@ -16,7 +16,7 @@ namespace TalmerMaint.WebUI.Controllers
     public class LocHourCatsController : Controller
     {
         private ILocationRepository context;
-        EFDbContext db = new EFDbContext();
+
 
         public LocHourCatsController(ILocationRepository locationRepository)
         {
@@ -47,8 +47,8 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.LocHourCats.Add(locHourCats);
-                db.SaveChanges();
+                
+                context.SaveLocHourCat(locHourCats);
                 TempData["message"] = string.Format("{0} was saved", locHourCats.Name);
             }
             else
@@ -70,12 +70,14 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
-            LocHourCats locHours = db.LocHourCats.Find(id);
+            LocHourCats locHours = context.LocHourCats.FirstOrDefault(p => p.Id == id);
+
             LocationCatsViewModel model = new LocationCatsViewModel
             {
-                Location = db.Locations.Find(locHours.LocationId),
+                Location = context.Locations.FirstOrDefault(l => l.Id == locHours.LocationId),
                 LocHourCats = locHours
             };
             if (locHours == null)
@@ -97,8 +99,8 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(locHourCats).State = EntityState.Modified;
-                db.SaveChanges();
+                
+                context.SaveLocHourCat(locHourCats);
                 TempData["message"] = string.Format("{0} has been saved", locHourCats.Name);
                 return RedirectToAction("Manage", new { id = locHourCats.LocationId });
             }
@@ -111,9 +113,11 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
-            LocHourCats locHourCats = db.LocHourCats.Find(id);
+
+            LocHourCats locHourCats = context.LocHourCats.FirstOrDefault(l => l.Id == id);
             if (locHourCats == null)
             {
                 return HttpNotFound();
@@ -124,21 +128,16 @@ namespace TalmerMaint.WebUI.Controllers
         // POST: LocHourCats/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int locId)
         {
-            LocHourCats locHourCats = db.LocHourCats.Find(id);
-            int locId = locHourCats.LocationId;
-            db.LocHourCats.Remove(locHourCats);
-            db.SaveChanges();
+            context.DeleteLocHourCat(id);
+            TempData["message"] = String.Format("That item was deleted");
             return RedirectToAction("Manage", new { id = locId });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            
             base.Dispose(disposing);
         }
     }

@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Data;
-using System.Data.SqlClient;
 using TalmerMaint.Domain.Abstract;
 using TalmerMaint.Domain.Entities;
-using System.Linq;
+using System.Web;
 
 namespace TalmerMaint.Domain.Concrete
 {
@@ -12,10 +11,8 @@ namespace TalmerMaint.Domain.Concrete
     {
         private EFDbContext context = new EFDbContext();
 
-        public Location Find(int id)
-        {
-            return context.Locations.Find(id);
-        }
+
+
         public IEnumerable<Location> Locations { get { return
                     context.Locations
                         .Include("LocHourCats")
@@ -23,7 +20,11 @@ namespace TalmerMaint.Domain.Concrete
                         .Include("LocServices")
                         .ToList();
                     } }
-       
+        public IEnumerable<LocServices> LocServices { get { return context.LocServices; } }
+        public IEnumerable<LocHourCats> LocHourCats { get { return context.LocHourCats; } }
+        public IEnumerable<LocHours> LocHours { get { return context.LocHours; } }
+        public IEnumerable<LocPhoneNums> LocPhoneNums { get { return context.LocPhoneNums; } }
+        public IEnumerable<LocPhoneExts> LocPhoneExts { get { return context.LocPhoneExts; } }
         public IEnumerable<LocServices> LocServicesByLocId(int id)
         {
             return context.LocServices.Where(l => l.LocationId == id).ToList();
@@ -46,46 +47,11 @@ namespace TalmerMaint.Domain.Concrete
                 .ToList();
         }
 
-        public void SaveLocation(Location loc, bool addImg)
-        {
-            if(loc.Id == 0)
-            {
-                context.Locations.Add(loc);
-            }
-            else
-            {
-                Location dbEntry = context.Locations.Find(loc.Id);
-                if(dbEntry != null)
-                {
-                    dbEntry.Name = loc.Name;
-                    dbEntry.Subtitle = loc.Subtitle;
-                    dbEntry.Address1 = loc.Address1;
-                    dbEntry.Address2 = loc.Address2;
-                    dbEntry.City = loc.City;
-                    dbEntry.State = loc.State;
-                    dbEntry.Zip = loc.Zip;
-                    dbEntry.Latitude = loc.Latitude;
-                    dbEntry.Longitude = loc.Longitude;
-                    /****
-                    Update-Liked
-                    Images are saved to the database because the images are used on multiple 
-                    sites, therefore cannot be saved in a local directory. Perhaps we can save these images in the cdn
-                    that Josh set up.
-                    ****/
-                    if(addImg) { 
-                        dbEntry.ImageData = loc.ImageData;
-                        dbEntry.ImageMimeType = loc.ImageMimeType;
-                    }
-                    dbEntry.Description = loc.Description;
-                    dbEntry.ManagerName = loc.ManagerName;
-                    dbEntry.NoAtm = loc.NoAtm;
-                    dbEntry.AtmOnly = loc.AtmOnly;
-                }
-            }
-            SaveXMLFile();
-            context.SaveChanges();
-        }
-        private void SaveXMLFile()
+
+        /**************************************
+        XML functions
+        *************************************/
+        private void SaveLocationsXMLFile()
         {
             DataTable locTable = new DataTable();
             locTable.TableName = "Locations";
@@ -126,8 +92,301 @@ namespace TalmerMaint.Domain.Concrete
                 
                 
             }
-            locTable.WriteXml("C:/SourceControl_Git/Locations.xml");
+            locTable.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/Locations.xml"));
         }
+        private void SaveLocHoursXMLFile()
+        {
+            DataSet dataSet = new DataSet();
+            DataTable catTable = new DataTable("cats");
+            catTable.TableName = "LocHourCats";
+            catTable.Columns.Add("Id", typeof(int));
+            catTable.Columns.Add("Name", typeof(string));
+            catTable.Columns.Add("LocationId", typeof(int));
+            catTable.PrimaryKey = new DataColumn[] { catTable.Columns["Id"] };
+
+
+
+            DataTable hoursTable = new DataTable("hours");
+            hoursTable.TableName = "LocHours";
+            hoursTable.Columns.Add("Id", typeof(int));
+            hoursTable.Columns.Add("Days", typeof(string));
+            hoursTable.Columns.Add("Hours", typeof(string));
+            hoursTable.Columns.Add("Priority", typeof(int));
+            hoursTable.Columns.Add("LocHourCatsId", typeof(int));
+            
+            hoursTable.PrimaryKey = new DataColumn[] { hoursTable.Columns["Id"] };
+
+            dataSet.Tables.Add(catTable);
+            dataSet.Tables.Add(hoursTable);
+            
+           foreach (LocHourCats cat in context.LocHourCats)
+            {
+
+                catTable.Rows.Add(new object[] {
+                    cat.Id,
+                    cat.Name,
+                    cat.LocationId
+                    
+                });
+
+            }
+            foreach (LocHours hours in context.LocHours)
+            {
+
+                hoursTable.Rows.Add(new object[] {
+                    hours.Id,
+                    hours.Days,
+                    hours.Hours,
+                    hours.Priority,
+                    hours.LocHourCatsId
+
+                    });
+
+
+            }
+            foreach (DataColumn dc in catTable.Columns)
+            {
+                dc.ColumnMapping = MappingType.Attribute;
+            }
+            DataRelation drel = new DataRelation("hoursJoin",catTable.Columns["Id"], hoursTable.Columns["LocHourCatsId"],true);
+            drel.Nested = true;
+             dataSet.Relations.Add(drel);
+           
+
+            
+            dataSet.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/LocHourCats.xml"));
+        }
+        private void SaveLocServicesXMLFile()
+        {
+            DataTable locTable = new DataTable("LocServices");
+            locTable.Columns.Add("Id", typeof(int));
+            locTable.Columns.Add("Featured", typeof(bool));
+            locTable.Columns.Add("Name", typeof(string));
+            locTable.Columns.Add("Description", typeof(string));
+            locTable.Columns.Add("IconClassName", typeof(string));
+            locTable.Columns.Add("LocationId", typeof(int));
+            foreach (LocServices loc in context.LocServices)
+            {
+
+                locTable.Rows.Add(new object[] {
+                    loc.Id,
+                    loc.Featured,
+                    loc.Name,
+                    loc.Description,
+                    loc.IconClassName,
+                    loc.LocationId
+
+                    });
+
+
+            }
+            locTable.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/LocServices.xml"));
+        }
+        private void SaveLocPhonesXMLFile()
+        {
+            DataSet dataSet = new DataSet("LocPhones");
+            DataTable phoneTable = new DataTable("phones");
+            phoneTable.TableName = "LocHourCats";
+            phoneTable.Columns.Add("Id", typeof(int));
+            phoneTable.Columns.Add("Name", typeof(string));
+            phoneTable.Columns.Add("Number", typeof(string));
+            phoneTable.Columns.Add("LocationId", typeof(int));
+            phoneTable.PrimaryKey = new DataColumn[] { phoneTable.Columns["Id"] };
+
+
+
+            DataTable extTable = new DataTable("exts");
+            extTable.TableName = "LocPhoneExts";
+            extTable.Columns.Add("Id", typeof(int));
+            extTable.Columns.Add("Name", typeof(string));
+            extTable.Columns.Add("Number", typeof(string));
+            extTable.Columns.Add("LocPhoneNumsId", typeof(int));
+
+            extTable.PrimaryKey = new DataColumn[] { extTable.Columns["Id"] };
+
+            dataSet.Tables.Add(phoneTable);
+            dataSet.Tables.Add(extTable);
+
+            foreach (LocPhoneNums phone in context.LocPhoneNums)
+            {
+
+                phoneTable.Rows.Add(new object[] {
+                    phone.Id,
+                    phone.Name,
+                    phone.Number,
+                    phone.LocationId
+
+                });
+
+            }
+            foreach (LocPhoneExts hours in context.LocPhoneExts)
+            {
+
+                extTable.Rows.Add(new object[] {
+                    hours.Id,
+                    hours.Name,
+                    hours.Number,
+                    hours.LocPhoneNumsId
+
+                    });
+
+
+            }
+            foreach (DataColumn dc in phoneTable.Columns)
+            {
+                dc.ColumnMapping = MappingType.Attribute;
+            }
+            DataRelation drel = new DataRelation("hoursJoin", phoneTable.Columns["Id"], extTable.Columns["LocPhoneNumsId"], true);
+            drel.Nested = true;
+            dataSet.Relations.Add(drel);
+
+
+
+            dataSet.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/LocPhones.xml"));
+        }
+
+        /**************************************
+        Save functions
+        *************************************/
+        public void SaveLocation(Location loc, bool addImg)
+        {
+            if (loc.Id == 0)
+            {
+                context.Locations.Add(loc);
+            }
+            else
+            {
+                Location dbEntry = context.Locations.Find(loc.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = loc.Name;
+                    dbEntry.Subtitle = loc.Subtitle;
+                    dbEntry.Address1 = loc.Address1;
+                    dbEntry.Address2 = loc.Address2;
+                    dbEntry.City = loc.City;
+                    dbEntry.State = loc.State;
+                    dbEntry.Zip = loc.Zip;
+                    dbEntry.Latitude = loc.Latitude;
+                    dbEntry.Longitude = loc.Longitude;
+                    /****
+                    Update-Liked
+                    Images are saved to the database because the images are used on multiple 
+                    sites, therefore cannot be saved in a local directory. Perhaps we can save these images in the cdn
+                    that Josh set up.
+                    ****/
+                    if (addImg)
+                    {
+                        dbEntry.ImageData = loc.ImageData;
+                        dbEntry.ImageMimeType = loc.ImageMimeType;
+                    }
+                    dbEntry.Description = loc.Description;
+                    dbEntry.ManagerName = loc.ManagerName;
+                    dbEntry.NoAtm = loc.NoAtm;
+                    dbEntry.AtmOnly = loc.AtmOnly;
+                }
+            }
+
+            context.SaveChanges();
+            SaveLocationsXMLFile();
+        }
+        public void SaveLocHourCat(LocHourCats hourCat)
+        {
+            if (hourCat.Id == 0)
+            {
+                context.LocHourCats.Add(hourCat);
+            }
+            else
+            {
+                LocHourCats dbEntry = context.LocHourCats.Find(hourCat.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = hourCat.Name;
+                    dbEntry.LocationId = hourCat.LocationId;
+                }
+            }
+            context.SaveChanges();
+            SaveLocHoursXMLFile();
+        }
+        public void SaveLocHours(LocHours hours)
+        {
+            if (hours.Id == 0)
+            {
+                context.LocHours.Add(hours);
+            }
+            else
+            {
+                LocHours dbEntry = context.LocHours.Find(hours.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Days = hours.Days;
+                    dbEntry.Hours = hours.Hours;
+                }
+            }
+            context.SaveChanges();
+            SaveLocHoursXMLFile();
+        }
+        public void SaveLocService(LocServices service)
+        {
+            if (service.Id == 0)
+            {
+                context.LocServices.Add(service);
+            }
+            else
+            {
+                LocServices dbEntry = context.LocServices.Find(service.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Featured = service.Featured;
+                    dbEntry.Name = service.Name;
+                    dbEntry.Description = service.Description;
+                    dbEntry.Featured = service.Featured;
+                    dbEntry.IconClassName = service.IconClassName;
+                    dbEntry.LocationId = service.LocationId;
+                }
+            }
+            context.SaveChanges();
+            SaveLocServicesXMLFile();
+        }
+        public void SaveLocPhoneNum(LocPhoneNums phone)
+        {
+            if (phone.Id == 0)
+            {
+                context.LocPhoneNums.Add(phone);
+            }
+            else
+            {
+                LocHourCats dbEntry = context.LocHourCats.Find(phone.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = phone.Name;
+                    dbEntry.LocationId = phone.LocationId;
+                }
+            }
+            context.SaveChanges();
+            SaveLocPhonesXMLFile();
+        }
+        public void SaveLocPhoneExt(LocPhoneExts ext)
+        {
+            if (ext.Id == 0)
+            {
+                context.LocPhoneExts.Add(ext);
+            }
+            else
+            {
+                LocPhoneExts dbEntry = context.LocPhoneExts.Find(ext.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.Name = ext.Name;
+                    dbEntry.Number = ext.Number;
+                }
+            }
+            context.SaveChanges();
+            SaveLocPhonesXMLFile();
+        }
+        /**************************************
+        Deletion functions
+        *************************************/
+
         public Location DeleteLocation(int id)
         {
             Location dbEntry = context.Locations.Find(id);
@@ -135,10 +394,71 @@ namespace TalmerMaint.Domain.Concrete
             {
                 context.Locations.Remove(dbEntry);
                 context.SaveChanges();
+                SaveLocationsXMLFile();
             }
             return dbEntry;
         }
+        public LocHourCats DeleteLocHourCat(int id)
+        {
+            LocHourCats dbEntry = context.LocHourCats.Find(id);
+            if (dbEntry != null)
+            {
+                context.LocHourCats.Remove(dbEntry);
+                
+                context.SaveChanges();
+                SaveLocHoursXMLFile();
+                SaveLocHoursXMLFile();
+            }
+            return dbEntry;
+        }
+        public LocHours DeleteLocHour(int id)
+        {
+            LocHours dbEntry = context.LocHours.Find(id);
+            if (dbEntry != null)
+            {
+                context.LocHours.Remove(dbEntry);
+                
+                context.SaveChanges();
+                SaveLocHoursXMLFile();
+            }
+            return dbEntry;
+        }
+        public LocServices DeleteLocService(int id)
+        {
+            LocServices dbEntry = context.LocServices.Find(id);
+            if(dbEntry != null)
+            {
+                context.LocServices.Remove(dbEntry);
 
+                context.SaveChanges();
+                SaveLocServicesXMLFile();
+            }
+            return dbEntry;
+        }
+        public LocPhoneNums DeleteLocPhoneNum(int id)
+        {
+            LocPhoneNums dbEntry = context.LocPhoneNums.Find(id);
+            if (dbEntry != null)
+            {
+                context.LocPhoneNums.Remove(dbEntry);
+
+                context.SaveChanges();
+                SaveLocPhonesXMLFile();
+            }
+            return dbEntry;
+        }
+        public LocPhoneExts DeleteLocPhoneExt(int id)
+        {
+            LocPhoneExts dbEntry = context.LocPhoneExts.Find(id);
+            if (dbEntry != null)
+            {
+                context.LocPhoneExts.Remove(dbEntry);
+
+                context.SaveChanges();
+                SaveLocPhonesXMLFile();
+            }
+            return dbEntry;
+        }
 
     }
 }

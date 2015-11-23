@@ -3,6 +3,7 @@
 
 <table class="table table-striped">
     <tr>
+        <th>Featured Product</th>
         <th>Icon</th>
         <th>Service Name</th>
         <th>Actions</th>
@@ -26,12 +27,22 @@
         foreach (LocServices serv in Model)
         {
             <tr>
+                <td>
+                    @if (serv.Featured)
+                    {
+                        <strong>Yes</strong>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                </td>
                 <td><i class="fa @serv.IconClassName"></i></td>
                 <td>@serv.Name</td>
                 
                 <td>
                     @using (Html.BeginForm("Delete", "LocServices",
-                                        new { id = serv.Id, locId = serv.LocationId }))
+                                        new { id = serv.Id, locId = serv.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
                     {
                         @Html.AntiForgeryToken()
                         @Html.ActionLink("Edit", "Edit", "LocServices", new { id = serv.Id },

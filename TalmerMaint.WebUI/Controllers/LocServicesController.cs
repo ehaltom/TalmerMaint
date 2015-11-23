@@ -17,7 +17,7 @@ namespace TalmerMaint.WebUI.Controllers
     public class LocServicesController : Controller
     {
         private ILocationRepository context;
-        EFDbContext db = new EFDbContext();
+        
 
         public LocServicesController(ILocationRepository locationRepository)
         {
@@ -39,22 +39,31 @@ namespace TalmerMaint.WebUI.Controllers
             };
             return View(model);
         }
-
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocServices LocServices)
+        public ActionResult Manage([Bind(Include = "Featured,Name,Description,IconClassName,LocationId")]LocServices LocServices)
         {
             if (ModelState.IsValid)
             {
-                db.LocServices.Add(LocServices);
-                db.SaveChanges();
+                context.SaveLocService(LocServices);
                 TempData["message"] = string.Format("{0} was saved", LocServices.Name);
+                return RedirectToAction("Manage", new { id = LocServices.LocationId });
             }
             else
             {
-                TempData["alert"] = string.Format("{0} was not saved", LocServices.Name);
+                string values = "";
+                foreach(ModelState val in ViewData.ModelState.Values)
+                {
+                    foreach(ModelError err in val.Errors)
+                    {
+                        values += " --- " + err.ErrorMessage + " --- ";
+                    }
+                }
+                TempData["alert"] = "There was an issue, The item was not saved<br />" + values;
+                return RedirectToAction("Index", "Locations");
             }
-            return RedirectToAction("Manage", new { id = LocServices.LocationId });
+            
         }
 
         // GET: LocServices/Edit/5
@@ -62,12 +71,13 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
-            LocServices LocServices = db.LocServices.Find(id);
+            LocServices LocServices = context.LocServices.FirstOrDefault(s => s.Id == id);
             LocationServicesViewModel model = new LocationServicesViewModel
             {
-                Location = db.Locations.Find(LocServices.LocationId),
+                Location = context.Locations.FirstOrDefault(l => l.Id == LocServices.LocationId),
                 LocServices = LocServices
             };
             if (LocServices == null)
@@ -86,34 +96,32 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(LocServices).State = EntityState.Modified;
-                db.SaveChanges();
+                context.SaveLocService(LocServices);
                 TempData["message"] = string.Format("{0} has been saved", LocServices.Name);
                 return RedirectToAction("Manage", new { id = LocServices.LocationId });
             }
-            TempData["alert"] = string.Format("{0} has not been saved", LocServices.Name);
-            return View(LocServices);
+            else {
+                TempData["alert"] = string.Format("{0} has not been saved", LocServices.Name);
+                return RedirectToAction("Index", "Locations");
+            }
+            
+            
+            
         }
 
 
         // POST: LocServices/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id, int locId)
+        public ActionResult DeleteConfirmed(int id, int locId)
         {
-            LocServices LocServices = await db.LocServices.FindAsync(id);
-            db.LocServices.Remove(LocServices);
-            await db.SaveChangesAsync();
+            context.DeleteLocService(id);
             TempData["message"] = "That service has been deleted";
             return RedirectToAction("Manage", new { id = locId });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
             base.Dispose(disposing);
         }
     }

@@ -17,7 +17,7 @@ namespace TalmerMaint.WebUI.Controllers
     public class LocPhoneNumsController : Controller
     {
         private ILocationRepository context;
-        EFDbContext db = new EFDbContext();
+       
 
         public LocPhoneNumsController(ILocationRepository locationRepository)
         {
@@ -44,8 +44,7 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.LocPhoneNums.Add(locPhoneNums);
-                db.SaveChanges();
+                context.SaveLocPhoneNum(locPhoneNums);
                 TempData["message"] = string.Format("{0} was saved", locPhoneNums.Name);
             }
             else {
@@ -59,12 +58,13 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
-            LocPhoneNums locPhoneNums = db.LocPhoneNums.Find(id);
+            LocPhoneNums locPhoneNums = context.LocPhoneNums.FirstOrDefault(p => p.Id == id);
             LocationPhonesViewModel model = new LocationPhonesViewModel
             {
-                Location = db.Locations.Find(locPhoneNums.LocationId),
+                Location = context.Locations.FirstOrDefault(l => l.Id == locPhoneNums.LocationId),
                 LocPhoneNums = locPhoneNums
             };
             if (locPhoneNums == null)
@@ -83,8 +83,7 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(locPhoneNums).State = EntityState.Modified;
-                db.SaveChanges();
+                context.SaveLocPhoneNum(locPhoneNums);
                 TempData["message"] = string.Format("{0} has been saved", locPhoneNums.Name);
                 return RedirectToAction("Manage", new { id = locPhoneNums.LocationId });
             }
@@ -96,21 +95,16 @@ namespace TalmerMaint.WebUI.Controllers
         // POST: LocPhoneNums/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id, int LocationId)
+        public ActionResult DeleteConfirmed(int id, int LocationId)
         {
-            LocPhoneNums locPhoneNums = await db.LocPhoneNums.FindAsync(id);
-            db.LocPhoneNums.Remove(locPhoneNums);
-            await db.SaveChangesAsync();
+            context.DeleteLocPhoneNum(id);
             TempData["message"] = "That Number has been deleted";
             return RedirectToAction("Manage", new { id = LocationId });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+            
             base.Dispose(disposing);
         }
     }

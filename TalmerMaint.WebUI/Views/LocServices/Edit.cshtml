@@ -5,49 +5,60 @@
 }
 
 <h2>Edit @Model.LocServices.Name Number for @Model.Location.Name</h2>
+<ol class="breadcrumb">
+    <li>
+        @Html.ActionLink("Location", "Edit", "Locations", new { id = Model.Location.Id }, null)
+    </li>
+    <li>Edit Services</li>
+</ol>
+<div class="row">
+    <div class="col-md-6">
 
-<hr />
+        @Html.Partial("LocServicesSummary", Model.Location.LocServices.OrderBy(m => m.Id))
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.LocServices.Id)
-        @Html.HiddenFor(model => model.LocServices.LocationId)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LocServices.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LocServices.Name, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LocServices.Name, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LocServices.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LocServices.Description, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LocServices.Description, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(model => model.LocServices.IconClassName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LocServices.IconClassName, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.LocServices.IconClassName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                @Html.ActionLink("Cancel", "Manage", new { id = Model.LocServices.LocationId }, new { @class = "btn btn-default" })
-            </div>
-        </div>
     </div>
-}
+    <div class="col-md-6">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.LocServices.Id)
+                @Html.HiddenFor(model => model.LocServices.LocationId)
+                <div class="col-md-9 col-md-offset-3 margin-bottom-ten">@Html.CheckBox("LocServices.Featured") <label>Featured Product?</label></div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LocServices.Name, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.LocServices.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LocServices.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LocServices.Description, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.LocServices.Description, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LocServices.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LocServices.IconClassName, htmlAttributes: new { @class = "control-label col-md-3" })
+                    <div class="col-md-9">
+                        @Html.EditorFor(model => model.LocServices.IconClassName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LocServices.IconClassName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
 
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-9">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        @Html.ActionLink("Cancel", "Manage", new { id = Model.LocServices.LocationId }, new { @class = "btn btn-default" })
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

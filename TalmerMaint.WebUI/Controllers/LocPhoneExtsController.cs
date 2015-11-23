@@ -10,24 +10,29 @@ using System.Web.Mvc;
 using TalmerMaint.Domain.Concrete;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
-
+using TalmerMaint.Domain.Abstract;
 namespace TalmerMaint.WebUI.Controllers
 {
     public class LocPhoneExtsController : Controller
     {
-        private EFDbContext db = new EFDbContext();
+        private ILocationRepository context;
 
+
+        public LocPhoneExtsController(ILocationRepository locationRepository)
+        {
+            this.context = locationRepository;
+        }
 
 
         // GET: LocPhoneExts/Create
         public ActionResult Manage(int id)
         {
-            LocPhoneNums phoneNums = db.LocPhoneNums.Find(id);
+            LocPhoneNums phoneNums = context.LocPhoneNums.FirstOrDefault(p => p.Id == id);
             LocationPhoneExtensionsViewModel model = new LocationPhoneExtensionsViewModel
             {
                 PhoneNums = phoneNums,
-                Location = db.Locations
-                .Find(phoneNums.LocationId),
+                Location = context.Locations
+                .FirstOrDefault(l => l.Id == phoneNums.LocationId),
 
                 LocPhoneExts = new LocPhoneExts()
 
@@ -37,19 +42,18 @@ namespace TalmerMaint.WebUI.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocPhoneExts LocPhoneExts)
+        public ActionResult Manage(LocPhoneExts locPhoneExts)
         {
             if (ModelState.IsValid)
             {
-                db.LocPhoneExts.Add(LocPhoneExts);
-                db.SaveChanges();
-                TempData["message"] = string.Format("{0} was saved", LocPhoneExts.Name);
+                context.SaveLocPhoneExt(locPhoneExts);
+                TempData["message"] = string.Format("{0} was saved", locPhoneExts.Name);
             }
             else
             {
-                TempData["alert"] = string.Format("{0} was not saved", LocPhoneExts.Name);
+                TempData["alert"] = string.Format("{0} was not saved", locPhoneExts.Name);
             }
-            return RedirectToAction("Manage", new { id = LocPhoneExts.LocPhoneNumsId });
+            return RedirectToAction("Manage", new { id = locPhoneExts.LocPhoneNumsId });
         }
 
         // GET: LocPhoneExts/Edit/5
@@ -57,13 +61,14 @@ namespace TalmerMaint.WebUI.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
+                return View("~/Locations");
             }
-            LocPhoneExts phoneExts = db.LocPhoneExts.Find(id);
-            LocPhoneNums phones = db.LocPhoneNums.Find(phoneExts.LocPhoneNumsId);
+            LocPhoneExts phoneExts = context.LocPhoneExts.FirstOrDefault(e => e.Id == id);
+            LocPhoneNums phones = context.LocPhoneNums.FirstOrDefault(p => p.Id == phoneExts.LocPhoneNumsId);
             LocationPhoneExtensionsViewModel model = new LocationPhoneExtensionsViewModel
             {
-                Location = db.Locations.Find(phones.LocationId),
+                Location = context.Locations.FirstOrDefault(p => p.Id == phones.LocationId),
                 LocPhoneExts = phoneExts,
                 PhoneNums = phones
             };
@@ -79,38 +84,34 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(LocPhoneExts LocPhoneExts)
+        public ActionResult Edit(LocPhoneExts locPhoneExts)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(LocPhoneExts).State = EntityState.Modified;
-                db.SaveChanges();
-                TempData["message"] = string.Format("{0} has been saved", LocPhoneExts.Name);
-                return RedirectToAction("Manage", new { id = LocPhoneExts.LocPhoneNumsId });
+                context.SaveLocPhoneExt(locPhoneExts);
+                TempData["message"] = string.Format("{0} was saved", locPhoneExts.Name);
             }
-            TempData["alert"] = string.Format("{0} has not been saved", LocPhoneExts.Name);
-            return View(LocPhoneExts);
+            else
+            {
+                TempData["alert"] = string.Format("{0} was not saved", locPhoneExts.Name);
+            }
+            return RedirectToAction("Manage", new { id = locPhoneExts.LocPhoneNumsId });
         }
 
 
         // POST: LocPhoneExts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id, int locId)
         {
-            LocPhoneExts LocPhoneExts = await db.LocPhoneExts.FindAsync(id);
-            db.LocPhoneExts.Remove(LocPhoneExts);
-            await db.SaveChangesAsync();
+            context.DeleteLocPhoneExt(id);
             TempData["message"] = "That Number has been deleted";
-            return RedirectToAction("Manage", new { id = LocPhoneExts.LocPhoneNumsId });
+            return RedirectToAction("Edit", "Locations", new { id = locId });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                db.Dispose();
-            }
+          
             base.Dispose(disposing);
         }
     }

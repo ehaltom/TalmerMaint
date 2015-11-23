@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace TalmerMaint.Domain.Entities
 {
@@ -17,6 +18,7 @@ namespace TalmerMaint.Domain.Entities
         [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
         public string Days { get; set; }
 
+        [AllowHtml]
         [Required(ErrorMessage = "The hours filed is required")]
         [MaxLength(150, ErrorMessage = "You have exceeded the maximum character limit (150)")]
         public string Hours { get; set; }

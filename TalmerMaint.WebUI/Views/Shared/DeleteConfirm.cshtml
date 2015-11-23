@@ -1,0 +1,19 @@
+﻿<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body clearfix">
+                <div class="col-sm-8">
+                    <h4 class="modal-title" id="deleteLabel">Are you sure?</h4>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <form action="" id="deleteConfirmed" method="post">
+                        @Html.AntiForgeryToken()
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-danger" type="submit">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

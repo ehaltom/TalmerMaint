@@ -170,6 +170,7 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="XMLOutput\Locations.xml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -290,6 +291,8 @@
     <Content Include="Views\RateRows\Index.cshtml" />
     <Content Include="Views\LocHourCats\Manage.cshtml" />
     <Content Include="Views\LocHourCats\Edit.cshtml" />
+    <Content Include="Views\Shared\DeleteConfirm.cshtml" />
+    <Content Include="Views\LocServices\Manage2.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
