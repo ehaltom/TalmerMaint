@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
+using Elmah;
+using TalmerMaint.Domain.Entities;
+
 
 namespace TalmerMaint.Domain.Extensions
 {
+    
     public class CentralLibrary
     {
+
         public static string GetStateName(string stateInitials)
         {
             switch (stateInitials)
@@ -174,6 +178,203 @@ namespace TalmerMaint.Domain.Extensions
             new SelectListItem() { Text="Wyoming", Value="WY"}
 
         };
+
+    }
+
+    public class HandleErrorWithELMAHAttribute : HandleErrorAttribute
+    {
+        public override void OnException(ExceptionContext context)
+        {
+            base.OnException(context);
+
+            var e = context.Exception;
+            if (!context.ExceptionHandled   // if unhandled, will be logged anyhow
+                    || RaiseErrorSignal(e)      // prefer signaling, if possible
+                    || IsFiltered(context))     // filtered?
+                return;
+
+            LogException(e);
+        }
+
+        private static bool RaiseErrorSignal(Exception e)
+        {
+            var context = HttpContext.Current;
+            if (context == null)
+                return false;
+            var signal = ErrorSignal.FromContext(context);
+            if (signal == null)
+                return false;
+            signal.Raise(e, context);
+            return true;
+        }
+
+        private static bool IsFiltered(ExceptionContext context)
+        {
+            var config = context.HttpContext.GetSection("elmah/errorFilter")
+                                     as ErrorFilterConfiguration;
+
+            if (config == null)
+                return false;
+
+            var testContext = new ErrorFilterModule.AssertionHelperContext(
+                                                                context.Exception, HttpContext.Current);
+
+            return config.Assertion.Test(testContext);
+        }
+
+        private static void LogException(Exception e)
+        {
+            var context = HttpContext.Current;
+            ErrorLog.GetDefault(context).Log(new Error(e, context));
+        }
+    }
+    public class ErrorHandlingActionInvoker : ControllerActionInvoker
+    {
+        private readonly IExceptionFilter filter;
+
+        public ErrorHandlingActionInvoker(IExceptionFilter filter)
+        {
+            if (filter == null)
+            {
+                throw new ArgumentNullException("filter");
+            }
+
+            this.filter = filter;
+        }
+
+        protected override FilterInfo GetFilters(
+        ControllerContext controllerContext,
+        ActionDescriptor actionDescriptor)
+        {
+            var filterInfo =
+            base.GetFilters(controllerContext,
+            actionDescriptor);
+
+            filterInfo.ExceptionFilters.Add(this.filter);
+
+            return filterInfo;
+        }
+    }
+
+    public class ErrorHandlingControllerFactory : DefaultControllerFactory
+    {
+        public override IController CreateController(
+        RequestContext requestContext,
+        string controllerName)
+        {
+            var controller =
+            base.CreateController(requestContext,
+            controllerName);
+
+            var c = controller as Controller;
+
+            if (c != null)
+            {
+                c.ActionInvoker = new ErrorHandlingActionInvoker(new HandleErrorWithELMAHAttribute());
+            }
+
+            return controller;
+        }
+    }
+
+    public class DbLogExtensions{
+        public static string LocationToString(Location loc, string img)
+        {
+            string locString = "<table class='table table-striped'><tr><th>ID:</th><td>" + loc.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Name:</th><td>" + loc.Name + "</td></tr>";
+            locString += "<tr><th>Subtitle:</th><td>" + loc.Subtitle + "</td></tr>";
+            locString += "<tr><th>Manager Name:</th><td>" + loc.ManagerName + "</td></tr>";
+            locString += "<tr><th>Address Line 1:</th><td>" + loc.Address1 + "</td></tr>";
+            locString += "<tr><th>Address Line 2:</th><td>" + loc.Address2 + "</td></tr>";
+            locString += "<tr><th>City:</th><td>" + loc.City + "</td></tr>";
+            locString += "<tr><th>State:</th><td>" + loc.State + "</td></tr>";
+            locString += "<tr><th>Zip:</th><td>" + loc.Zip + "</td></tr>";
+            locString += "<tr><th>AtmOnly:</th><td>" + loc.AtmOnly.ToString() + "</td></tr>";
+            locString += "<tr><th>NoAtm:</th><td>" + loc.NoAtm.ToString() + "</td></tr>";
+            locString += "<tr><th>Description:</th><td>" + loc.Description + "</td></tr>";
+            locString += "<tr><th>Latitude:</th><td>" + loc.Latitude + "</td></tr>";
+            locString += "<tr><th>Longitude:</th><td>" + loc.Longitude + "</td></tr>";
+            locString += "<tr><th>Image Mime Type:</th><td>" + loc.ImageMimeType + "</td></tr>";
+            locString += "<tr><th>Image Data:</th><td>";
+            if (img == "") {
+                if(loc.ImageMimeType != null && loc.ImageMimeType != "deleted")
+                {
+                    locString += "Existing Image";
+                }
+                else
+                {
+                    locString += "No Existing Image";
+                }
+            }
+            else
+            {
+                locString += img;
+            }
+            locString += "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+
+        public static string LocCatToString(LocHourCats cat)
+        {
+
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + cat.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Name:</th><td>" + cat.Name + "</td></tr>";
+            locString += "<tr><th>Location ID:</th><td>" + cat.LocationId + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+
+        public static string LocHoursToString(LocHours hours)
+        {
+
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + hours.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Days:</th><td>" + hours.Days + "</td></tr>";
+            locString += "<tr><th>Hours:</th><td>" + hours.Hours + "</td></tr>";
+            locString += "<tr><th>Priority:</th><td>" + hours.Priority.ToString() + "</td></tr>";
+            locString += "<tr><th>Parent Category ID:</th><td>" + hours.LocHourCatsId.ToString() + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+
+        public static string LocPhoneToString(LocPhoneNums phone)
+        {
+
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + phone.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Name:</th><td>" + phone.Name + "</td></tr>";
+            locString += "<tr><th>Number:</th><td>" + phone.Number + "</td></tr>";
+            locString += "<tr><th>Location ID:</th><td>" + phone.LocationId + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+
+        public static string LocPhoneExtToString(LocPhoneExts ext)
+        {
+
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + ext.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Name:</th><td>" + ext.Name + "</td></tr>";
+            locString += "<tr><th>Extension:</th><td>" + ext.Number + "</td></tr>";
+            locString += "<tr><th>Parent Phone ID:</th><td>" + ext.LocPhoneNumsId.ToString() + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+
+        public static string LocServiceToString(LocServices serv)
+        {
+
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + serv.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Name:</th><td>" + serv.Name + "</td></tr>";
+            locString += "<tr><th>Icon Class Name:</th><td>" + serv.IconClassName + "</td></tr>";
+            locString += "<tr><th>Featured?:</th><td>" + serv.Featured.ToString() + "</td></tr>";
+            locString += "<tr><th>Location ID:</th><td>" + serv.LocationId + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
 
     }
 }

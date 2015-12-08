@@ -1,10 +1,11 @@
-﻿
+﻿@model List<String>
 @{
     ViewBag.Title = "Talmer Maintenance";
 }
 
 <h2>Talmer Maintenance</h2>
 <h3>Site Functions</h3>
+
 <div style="padding-bottom:20px;">Not @User.Identity.Name? 
 @Html.ActionLink("Sign Out", "Logout", "Account", null, new { @class = "btn btn-primary btn-xs" })</div>
 <table class="table table-striped">
@@ -22,6 +23,11 @@
         <tr><td>Site Managers</td><td>Create, Edit and Delete users of this site</td><td>@Html.ActionLink("Edit Managers", "Index", "Users", null, new { @class = "btn btn-default btn-xs" })</td></tr>
         <tr><td>Site Roles</td><td>Create, Edit and Delete roles with this site</td><td>@Html.ActionLink("Edit Roles", "Index", "RoleAdmin", null, new { @class = "btn btn-default btn-xs" })</td></tr>
         
+    }
+    @if (User.IsInRole("Logging"))
+    {
+        <tr><td>Site Logs</td><td>View roles with this site</td><td>@Html.ActionLink("Logs", "Index", "Logging", null, new { @class = "btn btn-default btn-xs" })</td></tr>
+
     }
 </table>
 

@@ -68,3 +68,16 @@ C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Newtonsoft.Json.xml
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\obj\Debug\TalmerMaint.WebUI.Views.DataInfo.resources
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\obj\Debug\TalmerMaint.WebUI.csproj.GenerateResource.Cache
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\obj\Debug\TalmerMaint.WebUI.Migrations.eric.resources
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\NLog.config
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Elmah.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\NLog.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\NLog.Web.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\NLog.xml
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\NLog.Web.xml
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Elmah.pdb
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Elmah.xml
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Antlr3.Runtime.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\System.Web.Optimization.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\WebGrease.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\Antlr3.Runtime.pdb
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.WebUI\bin\System.Web.Optimization.xml

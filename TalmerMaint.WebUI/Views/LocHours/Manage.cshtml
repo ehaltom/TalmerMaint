@@ -11,7 +11,7 @@
     @Html.Partial("LocHourSummary", Model.Location.LocHourCats)
 </div>
 <div class="col-md-6">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit", "LocHours"))
     {
         @Html.AntiForgeryToken()
 

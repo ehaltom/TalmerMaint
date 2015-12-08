@@ -69,3 +69,11 @@
 #locList address{margin-bottom:5px;}
 #locList .loc-row{border-bottom:1px solid #eee;padding-bottom:20px;margin-bottom:25px;}
 .sidebar{}
+.key-col,.name-col{width:300px;}
+.value-col{-ms-word-wrap:break-word; word-wrap:break-word;max-width:850px;}
+@media(min-width:768px) {
+    .form-inline .form-control {
+    width: auto;
+    vertical-align: middle;
+}
+}

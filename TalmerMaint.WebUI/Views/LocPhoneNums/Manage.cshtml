@@ -15,7 +15,7 @@
     @Html.Partial("LocPhoneNumsummary", Model.Location.LocPhoneNums)
 </div>
 <div class="col-md-6">
-    @using (Html.BeginForm())
+    @using (Html.BeginForm("Edit", "LocPhoneNums"))
     {
         @Html.AntiForgeryToken()
 

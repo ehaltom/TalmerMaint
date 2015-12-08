@@ -1,0 +1,138 @@
+﻿@model TalmerMaint.WebUI.Models.LoggingIndexModel
+<h1>Logs</h1>
+
+<ol class="breadcrumb">
+    <li><a href="~/">Home</a></li>
+    <li>@Html.ActionLink("Logging", "Index")</li>
+    <li>List</li>
+</ol>
+<div class="row">
+    <div class="col-sm-5">
+        
+    </div>
+    <div class="col-sm-7">
+        <form class="form-inline pull-right" id="filtering">
+            <div class="form-group">
+                <label for="LoggerProviderName">Logger:</label>
+                @Html.DropDownList("LoggerProviderName", new SelectList(TalmerMaint.Domain.Helpers.FormsHelper.LogProviderNames, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="LogLevel">Level:</label>
+                @Html.DropDownList("LogLevel", new SelectList(TalmerMaint.Domain.Helpers.FormsHelper.LogLevels, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="Period">For:</label>
+                @Html.DropDownList("Period", new SelectList(TalmerMaint.Domain.Helpers.FormsHelper.CommonTimePeriods, "Value", "Text"), new { @class = "form-control" })
+            </div>
+
+            <input id="btnGo" class="btn btn-primary" name="btnGo" type="submit" value="Apply Filter" />
+            <div class="col-xs-12 text-right padding-top-ten">
+                Show @Html.DropDownList("PageSize", new SelectList(TalmerMaint.Domain.Helpers.FormsHelper.PagingPageSizes, "Value", "Text", Model.PagingInfo.ItemsPerPage), new { onchange = "document.getElementById('filtering').submit()", @class="form-control" }) results per page
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<div class="row margin-top-twenty">
+
+        <div class="col-xs-6">
+            
+            @string.Format("{0} records found. Page {1} of {2}", Model.PagingInfo.TotalItems, Model.PagingInfo.CurrentPage, Model.PagingInfo.TotalPages)
+        </div>
+
+        
+    <div class="btn-group pull-right" style="margin-bottom:20px;">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, LoggerProviderName = Model.LoggerProviderName, LogLevel = Model.LogLevel, Period = Model.Period, PageSize = Model.PagingInfo.ItemsPerPage }))
+    </div>
+    @if (Model.LogEvents.Count() == 0)
+    {
+        <div class="text-center row text-large">No Results Found</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <tr>
+                <th></th>
+                <th>
+                    Log
+                </th>
+                <th>
+                    Date
+                </th>
+                <th style='white-space: nowrap;'>
+                    Time ago
+                </th>
+                <th>
+                    Host
+                </th>
+                <th>
+                    Source
+                </th>
+                <th>
+                    Message
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Level
+                </th>
+            </tr>
+            @{int i = 1;
+            }
+            @foreach (var item in Model.LogEvents)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink("Details", "Details", new { id = item.Id.ToString(), loggerProviderName = item.LoggerProviderName })
+                    </td>
+                    <td>
+                        @item.LoggerProviderName
+                    </td>
+                    <td class="text-center">
+                        @String.Format("{0:g}", item.LogDate.ToLocalTime())
+                    </td>
+                    <td style='white-space: nowrap;'>
+                        @{
+                            TimeSpan s = DateTime.Now - item.LogDate.ToLocalTime();
+                        }
+                        @String.Format("{0:D2}:{1:D2}:{2:D2}", s.Hours,s.Minutes,s.Seconds )
+                    </td>
+                    <td>
+                        @item.MachineName
+                    </td>
+                    <td style="max-width:100px;-ms-word-wrap: break-word; word-wrap:break-word;">
+                        @item.Source
+                    </td>
+                    <td style="-ms-word-wrap: break-word; word-wrap: break-word; max-height: 100px; max-width: 300px">
+                        @Html.Raw(item.Message)
+                    </td>
+                    <td>
+                        @item.Type
+                    </td>
+                    <td>
+                        <strong @if(item.Level.ToLower() =="error" ) {
+                                    @:class="text-danger"
+                                    }>
+                                @item.Level.ToLower()</strong>
+
+        </td>
+                </tr>
+                i++;
+            }
+
+</table>
+                }
+    <div class="btn-group pull-right" style="margin-bottom:20px;">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("List", new { page = x, LoggerProviderName = Model.LoggerProviderName, Period = Model.Period, LogLevel = Model.LogLevel }))
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+
+    </script>
+    }
+

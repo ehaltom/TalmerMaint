@@ -320,6 +320,7 @@ namespace TalmerMaint.Domain.Concrete
                 {
                     dbEntry.Days = hours.Days;
                     dbEntry.Hours = hours.Hours;
+                    dbEntry.Priority = hours.Priority;
                 }
             }
             context.SaveChanges();
@@ -355,10 +356,11 @@ namespace TalmerMaint.Domain.Concrete
             }
             else
             {
-                LocHourCats dbEntry = context.LocHourCats.Find(phone.Id);
+                LocPhoneNums dbEntry = context.LocPhoneNums.Find(phone.Id);
                 if (dbEntry != null)
                 {
                     dbEntry.Name = phone.Name;
+                    dbEntry.Number = phone.Number;
                     dbEntry.LocationId = phone.LocationId;
                 }
             }
@@ -382,6 +384,11 @@ namespace TalmerMaint.Domain.Concrete
             }
             context.SaveChanges();
             SaveLocPhonesXMLFile();
+        }
+        public void SaveLog(DbChangeLog log)
+        {
+            context.DbChangeLogs.Add(log);
+            context.SaveChanges();
         }
         /**************************************
         Deletion functions

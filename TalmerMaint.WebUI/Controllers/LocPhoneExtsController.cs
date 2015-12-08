@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using TalmerMaint.Domain.Concrete;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.WebUI.Models;
 using TalmerMaint.Domain.Abstract;
+using TalmerMaint.Domain.Services.Logging.NLog;
+
 namespace TalmerMaint.WebUI.Controllers
 {
     public class LocPhoneExtsController : Controller
@@ -40,21 +35,7 @@ namespace TalmerMaint.WebUI.Controllers
             return View(model);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Manage(LocPhoneExts locPhoneExts)
-        {
-            if (ModelState.IsValid)
-            {
-                context.SaveLocPhoneExt(locPhoneExts);
-                TempData["message"] = string.Format("{0} was saved", locPhoneExts.Name);
-            }
-            else
-            {
-                TempData["alert"] = string.Format("{0} was not saved", locPhoneExts.Name);
-            }
-            return RedirectToAction("Manage", new { id = locPhoneExts.LocPhoneNumsId });
-        }
+
 
         // GET: LocPhoneExts/Edit/5
         public ActionResult Edit(int? id)
@@ -86,26 +67,91 @@ namespace TalmerMaint.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(LocPhoneExts locPhoneExts)
         {
+            /***** Logging initial settings *****/
+            DbChangeLog log = new DbChangeLog();
+            log.UserName = User.Identity.Name;
+            log.Controller = "LocPhoneExts";
+            log.Action = (locPhoneExts.Id != 0) ? "Edit" : "Create";
+
+            if (log.Action == "Edit")
+            {
+                LocPhoneExts oldExt = context.LocPhoneExts.FirstOrDefault(m => m.Id == locPhoneExts.Id);
+                log.BeforeChange = Domain.Extensions.DbLogExtensions.LocPhoneExtToString(oldExt);
+            }
+            log.AfterChange = Domain.Extensions.DbLogExtensions.LocPhoneExtToString(locPhoneExts);
+            /***** end Logging initial settings *****/
+
+
             if (ModelState.IsValid)
             {
-                context.SaveLocPhoneExt(locPhoneExts);
-                TempData["message"] = string.Format("{0} was saved", locPhoneExts.Name);
+                try
+                {
+                    context.SaveLocPhoneExt(locPhoneExts);
+                    log.ItemId = locPhoneExts.Id;
+
+                    log.Success = true;
+                    TempData["message"] = string.Format("{0} has been saved", locPhoneExts.Name);
+                }
+                catch (Exception e)
+                {
+                    log.Error = e.ToString();
+                    log.Success = false;
+                    TempData["alert"] = string.Format("There has been an error. {0} has not been saved", locPhoneExts.Name);
+                }
+
+
+
             }
             else
             {
-                TempData["alert"] = string.Format("{0} was not saved", locPhoneExts.Name);
-            }
-            return RedirectToAction("Manage", new { id = locPhoneExts.LocPhoneNumsId });
-        }
 
+
+                log.Error = "Errors: ";
+                NLogLogger logger = new NLogLogger();
+                logger.Info("There has been a validation error, this record has not been saved");
+                foreach (ModelState modelState in ViewData.ModelState.Values)
+                {
+                    foreach (ModelError error in modelState.Errors)
+                    {
+                        log.Error += error + "<br />";
+
+                    }
+                }
+                TempData["alert"] = "There has been a validation error, this record has not been saved";
+
+            }
+            log.AfterChange = Domain.Extensions.DbLogExtensions.LocPhoneExtToString(locPhoneExts);
+            context.SaveLog(log);
+            return RedirectToAction("Edit", new { id = locPhoneExts.Id });
+        }
 
         // POST: LocPhoneExts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id, int locId)
         {
-            context.DeleteLocPhoneExt(id);
-            TempData["message"] = "That Number has been deleted";
+
+            DbChangeLog log = new DbChangeLog();
+            LocPhoneExts deletedLocPhoneExts = context.DeleteLocPhoneExt(id);
+            log.UserName = User.Identity.Name;
+            log.Controller = ControllerContext.RouteData.Values["controller"].ToString();
+            log.Action = ControllerContext.RouteData.Values["action"].ToString();
+            log.ItemId = id;
+
+            log.BeforeChange = Domain.Extensions.DbLogExtensions.LocPhoneExtToString(deletedLocPhoneExts);
+            if (deletedLocPhoneExts != null)
+            {
+                log.Success = true;
+
+                TempData["message"] = string.Format("{0} was deleted", deletedLocPhoneExts.Name);
+            }
+            else
+            {
+                log.Success = false;
+                log.Error = "Unable to delete location";
+                TempData["alert"] = "Sorry, there was an error, that location has not been deleted";
+            }
+            context.SaveLog(log);
             return RedirectToAction("Edit", "Locations", new { id = locId });
         }
 

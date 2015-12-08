@@ -18,20 +18,20 @@ namespace TalmerMaint.WebUI.Controllers
         private EFDbContext db = new EFDbContext();
 
         // GET: Rates
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.Rates.ToListAsync());
+            return View(db.Rates.ToList());
         }
 
         // GET: Rates/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            Rates rates = await db.Rates.FindAsync(id);
+            Rates rates = db.Rates.Find(id);
             if (rates == null)
             {
                 return HttpNotFound();
@@ -51,12 +51,12 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,PageName,EffectiveDate")] Rates rates)
+        public ActionResult Create([Bind(Include = "Id,PageName,EffectiveDate")] Rates rates)
         {
             if (ModelState.IsValid)
             {
                 db.Rates.Add(rates);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -64,14 +64,14 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         // GET: Rates/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            Rates rates = await db.Rates.FindAsync(id);
+            Rates rates = db.Rates.Find(id);
             if (rates == null)
             {
                 return HttpNotFound();
@@ -84,26 +84,26 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,PageName,EffectiveDate")] Rates rates)
+        public ActionResult Edit([Bind(Include = "Id,PageName,EffectiveDate")] Rates rates)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(rates).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(rates);
         }
 
         // GET: Rates/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            Rates rates = await db.Rates.FindAsync(id);
+            Rates rates = db.Rates.Find(id);
             if (rates == null)
             {
                 return HttpNotFound();
@@ -114,11 +114,11 @@ namespace TalmerMaint.WebUI.Controllers
         // POST: Rates/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Rates rates = await db.Rates.FindAsync(id);
+            Rates rates = db.Rates.Find(id);
             db.Rates.Remove(rates);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

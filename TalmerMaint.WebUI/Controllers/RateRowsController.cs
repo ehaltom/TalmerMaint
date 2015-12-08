@@ -41,12 +41,12 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Priority,Value,RateTitleId,RatesId")] RateRow rateRow)
+        public ActionResult Create([Bind(Include = "Id,Priority,Value,RateTitleId,RatesId")] RateRow rateRow)
         {
             if (ModelState.IsValid)
             {
                 db.RateRows.Add(rateRow);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -54,14 +54,14 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         // GET: RateRows/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            RateRow rateRow = await db.RateRows.FindAsync(id);
+            RateRow rateRow = db.RateRows.Find(id);
             if (rateRow == null)
             {
                 return HttpNotFound();
@@ -74,26 +74,26 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Priority,Value,RateTitleId,RatesId")] RateRow rateRow)
+        public ActionResult Edit([Bind(Include = "Id,Priority,Value,RateTitleId,RatesId")] RateRow rateRow)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(rateRow).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(rateRow);
         }
 
         // GET: RateRows/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            RateRow rateRow = await db.RateRows.FindAsync(id);
+            RateRow rateRow = db.RateRows.Find(id);
             if (rateRow == null)
             {
                 return HttpNotFound();
@@ -104,11 +104,11 @@ namespace TalmerMaint.WebUI.Controllers
         // POST: RateRows/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            RateRow rateRow = await db.RateRows.FindAsync(id);
+            RateRow rateRow = db.RateRows.Find(id);
             db.RateRows.Remove(rateRow);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Index");
         }
 

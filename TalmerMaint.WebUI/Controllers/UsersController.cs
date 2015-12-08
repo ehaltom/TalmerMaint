@@ -29,12 +29,12 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateUserModel model)
+        public ActionResult Create(CreateUserModel model)
         {
             if (ModelState.IsValid)
             {
                 AppUser user = new AppUser { UserName = model.Name, Email = model.Email };
-                IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+                IdentityResult result = UserManager.Create(user, model.Password);
 
                 if (result.Succeeded)
                 {
@@ -49,12 +49,12 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        public ActionResult Delete(string id)
         {
-            AppUser user = await UserManager.FindByIdAsync(id);
+            AppUser user = UserManager.FindById(id);
             if(user != null)
             {
-                IdentityResult result = await UserManager.DeleteAsync(user);
+                IdentityResult result = UserManager.Delete(user);
                 if (result.Succeeded)
                 {
                     TempData["message"] = string.Format("{0} was deleted", user.UserName);
@@ -73,9 +73,9 @@ namespace TalmerMaint.WebUI.Controllers
                 }
         }
 
-        public async Task<ActionResult> Edit(string id)
+        public ActionResult Edit(string id)
         {
-            AppUser user = await UserManager.FindByIdAsync(id);
+            AppUser user = UserManager.FindById(id);
             if(user != null)
             {
                 return View(user);
@@ -88,7 +88,7 @@ namespace TalmerMaint.WebUI.Controllers
         [HttpPost]
         public async Task<ActionResult> Edit(string id, string email, string password)
         {
-            AppUser user = await UserManager.FindByIdAsync(id);
+            AppUser user = UserManager.FindById(id);
             if (user != null)
             {
                 user.Email = email;
@@ -113,7 +113,7 @@ namespace TalmerMaint.WebUI.Controllers
                 }
                 if((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
                 {
-                    IdentityResult result = await UserManager.UpdateAsync(user);
+                    IdentityResult result = UserManager.Update(user);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index");
@@ -121,7 +121,7 @@ namespace TalmerMaint.WebUI.Controllers
                 }
                 if((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
                 {
-                    IdentityResult result = await UserManager.UpdateAsync(user);
+                    IdentityResult result = UserManager.Update(user);
                     if (result.Succeeded)
                     {
                         return RedirectToAction("Index");

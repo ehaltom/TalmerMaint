@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using TalmerMaint.Domain.Concrete;
 using System.Web.Mvc;
-using System.Security.Principal;
 
 namespace TalmerMaint.WebUI.Controllers
 {

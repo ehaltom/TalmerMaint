@@ -19,13 +19,13 @@ namespace TalmerMaint.WebUI.Controllers
         private EFDbContext db = new EFDbContext();
 
         // GET: RateTitles
-        public async Task<ActionResult> Index()
+        public ActionResult Index()
         {
-            return View(await db.RateTitles.ToListAsync());
+            return View(db.RateTitles.ToList());
         }
 
         // GET: RateTitles/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
 
             if (id == null)
@@ -33,7 +33,7 @@ namespace TalmerMaint.WebUI.Controllers
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            RateTitle rateTitle = await db.RateTitles.FindAsync(id);
+            RateTitle rateTitle = db.RateTitles.Find(id);
             if (rateTitle == null)
             {
                 return HttpNotFound();
@@ -68,12 +68,12 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(RateTitle rateTitle)
+        public ActionResult Create(RateTitle rateTitle)
         {
             if (ModelState.IsValid)
             {
                 db.RateTitles.Add(rateTitle);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Create", new { id = rateTitle.RatesId }); ;
             }
 
@@ -81,14 +81,14 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         // GET: RateTitles/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            RateTitle rateTitle = await db.RateTitles.FindAsync(id);
+            RateTitle rateTitle = db.RateTitles.Find(id);
             if (rateTitle == null)
             {
                 return HttpNotFound();
@@ -101,26 +101,26 @@ namespace TalmerMaint.WebUI.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Priority,RatesId")] RateTitle rateTitle)
+        public ActionResult Edit([Bind(Include = "Id,Name,Priority,RatesId")] RateTitle rateTitle)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(rateTitle).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                db.SaveChanges();
                 return RedirectToAction("Create", new { id = rateTitle.RatesId });
             }
             return View(rateTitle);
         }
 
         // GET: RateTitles/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 TempData["alert"] = "Sorry, I could not find the item you were looking for. Please try again.";
                 return View("~/Locations");
             }
-            RateTitle rateTitle = await db.RateTitles.FindAsync(id);
+            RateTitle rateTitle = db.RateTitles.Find(id);
             if (rateTitle == null)
             {
                 return HttpNotFound();
@@ -131,11 +131,11 @@ namespace TalmerMaint.WebUI.Controllers
         // POST: RateTitles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            RateTitle rateTitle = await db.RateTitles.FindAsync(id);
+            RateTitle rateTitle =  db.RateTitles.Find(id);
             db.RateTitles.Remove(rateTitle);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
             return RedirectToAction("Details", "Rates", new { id = rateTitle.RatesId });
         }
 

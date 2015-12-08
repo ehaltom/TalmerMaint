@@ -42,6 +42,7 @@ namespace TalmerMaint.WebUI.Infrastructure
              kernel.Bind<ILocationRepository>().ToConstant(mock.Object);
              */
             kernel.Bind<ILocationRepository>().To<EFLocationRepository>();
+            kernel.Bind<IDbChangeLog>().To<EFDbChangeLog>();
         }
     }
 }

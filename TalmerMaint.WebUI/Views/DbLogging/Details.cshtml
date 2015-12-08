@@ -1,0 +1,85 @@
+﻿@model TalmerMaint.Domain.Entities.DbChangeLog
+@{
+    ViewBag.Title = "Change Set Details";
+}
+
+<h1>Change Set Details</h1>
+<ol class="breadcrumb">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li>@Html.ActionLink("Logging", "Index", "Logging")</li>
+    <li>@Html.ActionLink("Database Change Log List", "Index")</li>
+    <li>Change Set Details</li>
+</ol>
+<div class="row">
+    <div class="col-sm-6">
+        <table>
+            <tr>
+                <th>User</th>
+                <td>@Model.UserName</td>
+            </tr>
+            <tr>
+                <th>Controller</th>
+                <td>@Model.Controller</td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                                    @if (Model.Action == "Delete")
+                                    {
+                                        <td class="text-danger">
+                                            <strong>@Model.Action</strong>
+                                            </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @Model.Action
+                                        </td>
+                                    }
+
+</tr>
+            <tr>
+                <th>@Model.Controller Id</th>
+            <td>@Model.ItemId</td>
+        </tr>
+    </table>
+</div>
+    <div class="col-sm-6">
+        <table>
+            <tr>
+                <th>Change ID</th>
+                <td>@Model.Id</td>
+            </tr>
+            <tr>
+                <th>Date/Time</th>
+                <td>@Model.DateTime</td>
+            </tr>
+            <tr>
+                <th>Successful Change?</th>
+                <td>@Model.Success</td>
+            </tr>
+            <tr>
+                <th>Error</th>
+                <td>
+                    @if (!Model.Success)
+                    {
+                        @Html.Raw(Model.Error)}
+                    else
+                    {
+                        <span>No Error</span>
+                    }
+                </td>
+            </tr>
+            
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <h3>@Model.Controller before change</h3>
+        @Html.Raw(Model.BeforeChange)
+    </div>
+    <div class="col-sm-6">
+        <h3>@Model.Controller after change</h3>
+        @Html.Raw(Model.AfterChange)
+    </div>
+</div>

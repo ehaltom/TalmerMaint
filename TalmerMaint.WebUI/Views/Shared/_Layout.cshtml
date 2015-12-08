@@ -33,12 +33,16 @@
 
                         @Html.ActionLink("Rates", "Index", "Rates")
                     </li>}
-@if (User.IsInRole("UserAdmin"))
-{
+                    @if (User.IsInRole("UserAdmin"))
+                    {
                     <li>
                         @Html.ActionLink("Users", "Index", "Users")
                     </li>
                     <li>@Html.ActionLink("Roles", "Index", "RoleAdmin")</li>}
+                 @if (User.IsInRole("Logging"))
+                    {
+
+                    <li>@Html.ActionLink("Logging", "Index", "Logging")</li>}
                 </ul>
             </div>
         </div>

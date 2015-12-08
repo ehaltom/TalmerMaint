@@ -1,0 +1,51 @@
+﻿
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+<div class="row">
+    <div class="col-sm-6">
+        <h3>Id</h3>
+        <p>@Model.Id</p>
+
+        <h3>LogDate</h3>
+        <p>@String.Format("{0:g}", Model.LogDate)</p>
+
+        <h3>Name</h3>
+        <p>@Model.LoggerProviderName</p>
+
+        <h3>Source</h3>
+        <p>@Model.Source</p>
+
+        <h3>MachineName</h3>
+        <p>@Model.MachineName</p>
+        </div>
+    <div class="col-sm-6">
+        <h3>Type</h3>
+        <p>@Model.Type</p>
+
+        <h3>Level</h3>
+        <p>@Model.Level</p>
+
+        <h3>Message</h3>
+        <p>
+            <pre>@Html.Raw(Model.Message)</pre>
+        </p>
+
+        <h3>StackTrace</h3>
+            @Model.StackTrace
+    </div>
+</div>
+
+@Html.Raw(TalmerMaint.Domain.Helpers.FormsHelper.OutputXmlTableForLogging(Model.AllXml))
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+

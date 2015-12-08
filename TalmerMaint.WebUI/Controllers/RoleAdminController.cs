@@ -26,11 +26,11 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create([Required]string name)
+        public ActionResult Create([Required]string name)
         {
             if (ModelState.IsValid)
             {
-                IdentityResult result = await RoleManager.CreateAsync(new AppRole(name));
+                IdentityResult result = RoleManager.Create(new AppRole(name));
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index");
@@ -44,12 +44,12 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Delete(string id)
+        public ActionResult Delete(string id)
         {
-            AppRole role = await RoleManager.FindByIdAsync(id);
+            AppRole role = RoleManager.FindById(id);
             if(role != null)
             {
-                IdentityResult result = await RoleManager.DeleteAsync(role);
+                IdentityResult result = RoleManager.Delete(role);
                 if (result.Succeeded)
                 {
                     TempData["message"] = string.Format("{0} role was deleted", role.Name);
@@ -67,9 +67,9 @@ namespace TalmerMaint.WebUI.Controllers
             return View("Index", RoleManager.Roles);
         }
 
-        public async Task<ActionResult> Edit(string id)
+        public ActionResult Edit(string id)
         {
-            AppRole role = await RoleManager.FindByIdAsync(id);
+            AppRole role = RoleManager.FindById(id);
             string[] memberIds = role.Users.Select(x => x.UserId).ToArray();
             IEnumerable<AppUser> members = UserManager.Users.Where(x => memberIds.Any(y => y == x.Id));
             IEnumerable<AppUser> nonMembers = UserManager.Users.Except(members);
@@ -82,14 +82,14 @@ namespace TalmerMaint.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(RoleModificationModel model)
+        public ActionResult Edit(RoleModificationModel model)
         {
             IdentityResult result;
             if (ModelState.IsValid)
             {
                 foreach(string userId in model.IdsToAdd ?? new string[] { })
                 {
-                    result = await UserManager.AddToRoleAsync(userId, model.RoleName);
+                    result = UserManager.AddToRole(userId, model.RoleName);
                     if (!result.Succeeded)
                     {
 
@@ -98,7 +98,7 @@ namespace TalmerMaint.WebUI.Controllers
                 }
                 foreach(string userId in model.IdsToDelete ?? new string[] { })
                 {
-                    result = await UserManager.RemoveFromRoleAsync(userId, model.RoleName);
+                    result = UserManager.RemoveFromRole(userId, model.RoleName);
                     if (!result.Succeeded)
                     {
                         return View("Error", result.Errors);

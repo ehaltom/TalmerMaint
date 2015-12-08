@@ -22,6 +22,7 @@ namespace TalmerMaint.Domain.Abstract
         void SaveLocService(LocServices service);
         void SaveLocPhoneNum(LocPhoneNums phone);
         void SaveLocPhoneExt(LocPhoneExts ext);
+        void SaveLog(DbChangeLog log);
         /**************************************
         Delete functions
         *************************************/

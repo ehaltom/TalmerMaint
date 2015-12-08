@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -78,13 +82,25 @@
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.2.1\lib\net45\NLog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NLog.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.Web.4.1\lib\net35\NLog.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
@@ -118,24 +134,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IDbChangeLog.cs" />
     <Compile Include="Abstract\ILocationRepository.cs" />
+    <Compile Include="Abstract\ILogReportingFacade.cs" />
+    <Compile Include="Abstract\ILogReportingRepository.cs" />
     <Compile Include="Abstract\IRatesRepository.cs" />
+    <Compile Include="Concrete\EFDbChangeLog.cs" />
     <Compile Include="Concrete\EFRatesRepository.cs" />
+    <Compile Include="Concrete\ElmahRepository.cs" />
+    <Compile Include="Concrete\HealthMonitoringRepository.cs" />
+    <Compile Include="Concrete\LogReportingFacade.cs" />
+    <Compile Include="Concrete\NLogRepository.cs" />
     <Compile Include="Entities\AppRole.cs" />
     <Compile Include="Concrete\EFDbContext.cs" />
     <Compile Include="Concrete\EFLocationRepository.cs" />
     <Compile Include="Entities\AppUser.cs" />
+    <Compile Include="Entities\ELMAH_Error.cs" />
     <Compile Include="Entities\Location.cs" />
     <Compile Include="Entities\LocHourCats.cs" />
     <Compile Include="Entities\LocHours.cs" />
     <Compile Include="Entities\LocPhoneExts.cs" />
     <Compile Include="Entities\LocServices.cs" />
+    <Compile Include="Entities\DbChangeLog.cs" />
+    <Compile Include="Entities\LogEvent.cs" />
+    <Compile Include="Entities\Logging.cs" />
+    <Compile Include="Entities\NLog_Error.cs" />
     <Compile Include="Entities\RateTitle.cs" />
     <Compile Include="Entities\Rates.cs" />
     <Compile Include="Entities\RateRow.cs" />
+    <Compile Include="Entities\vw_aspnet_WebEvents_extended.cs" />
     <Compile Include="Extensions\CentralLibrary.cs" />
+    <Compile Include="Helpers\DateTimeExtensionMethods.cs" />
+    <Compile Include="Helpers\DateTimeHelper.cs" />
+    <Compile Include="Helpers\FormsHelper.cs" />
+    <Compile Include="Helpers\FuzzyDateTime.cs" />
+    <Compile Include="Helpers\StringExtensionMethods.cs" />
+    <Compile Include="Helpers\TimePeriodHelper.cs" />
+    <Compile Include="Helpers\UrlHelperExtensions.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Logging\ILogger.cs" />
+    <Compile Include="Services\Logging\LogConfigurationSection.cs" />
+    <Compile Include="Services\Logging\LogFactory.cs" />
+    <Compile Include="Services\Logging\LogUtility.cs" />
+    <Compile Include="Services\Logging\NLog\NLogLogger.cs" />
+    <Compile Include="Services\Logging\NLog\UtcDateRenderer.cs" />
+    <Compile Include="Services\Logging\NLog\WebVariablesRenderer.cs" />
+    <Compile Include="Services\Paging\IPagedList.cs" />
+    <Compile Include="Services\Paging\PagedList.cs" />
+    <Compile Include="Services\Paging\Pager.cs" />
+    <Compile Include="Services\Paging\PagingExtensiions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\TalmerMaint.WebUI\Views\Users\Create.cshtml">
@@ -146,6 +194,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,6 +20,7 @@ namespace TalmerMaint.Domain.Concrete
         public DbSet<Rates> Rates { get; set; }
         public DbSet<RateTitle> RateTitles { get; set; }
         public DbSet<RateRow> RateRows { get; set; }
+        public DbSet<DbChangeLog> DbChangeLogs { get; set; }
 
 
         public override int SaveChanges()

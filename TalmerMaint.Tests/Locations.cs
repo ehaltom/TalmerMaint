@@ -335,15 +335,15 @@ namespace TalmerMaint.Tests
             LocationsController target = new LocationsController(mock.Object);
 
             //Arrange - create a location
-            Location loc = new Location { Id= 1, Name = "Test", Address1 = "123 N. Address", City = "Troy", Zip = "87654" };
+            Location loc = new Location { Id= 1, Name = "Test", Address1 = "123 N. Address", City = "Troy", Zip = "87654",State="AZ", };
 
             //Act - try to save the location
-            ActionResult result = target.Edit(loc);
+            ActionResult result = target.Edit(loc, null);
 
             //Assert - check that the repo was called
             mock.Verify(m => m.SaveLocation(loc, false));
             //Assert - check the method result type
-            Assert.IsNotInstanceOfType(result, typeof(ViewResult));
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
 
         [TestMethod]

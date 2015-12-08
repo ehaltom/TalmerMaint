@@ -8,10 +8,12 @@ using Microsoft.AspNet.Identity.Owin;
 using TalmerMaint.WebUI.Infrastructure;
 using System.Web;
 using TalmerMaint.Domain.Entities;
+using TalmerMaint.Domain.Extensions;
 
 namespace TalmerMaint.WebUI.Controllers
 {
     [Authorize]
+    [HandleErrorWithELMAH]
     public class AccountController : Controller
     {
         [AllowAnonymous]
@@ -28,20 +30,21 @@ namespace TalmerMaint.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginModel details, string returnUrl)
+        public ActionResult Login(LoginModel details, string returnUrl)
         {
             if (ModelState.IsValid)
             {
-                AppUser user = await UserManager.FindAsync(details.Name, details.Password);
+                AppUser user = UserManager.Find(details.Name, details.Password);
                 if (user == null)
                 {
-                    ModelState.AddModelError("", "Invalid name or password.");
+                    TempData["alert"] = "Invalid name or password.";
                 }
                 else
                 {
-                    ClaimsIdentity ident = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    ClaimsIdentity ident = UserManager.CreateIdentity(user, DefaultAuthenticationTypes.ApplicationCookie);
                     AuthManager.SignOut();
                     AuthManager.SignIn(new AuthenticationProperties { IsPersistent = false }, ident);
+                    TempData["message"] = "Welcome!";
                     return Redirect(returnUrl);
                 }
             }
@@ -49,6 +52,73 @@ namespace TalmerMaint.WebUI.Controllers
             return View(details);
         }
 
+
+
+        //
+        // GET: /Account/Manage
+        public ActionResult Manage(ManageMessageId? message)
+        {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+            ViewBag.HasLocalPassword = HasPassword();
+            ViewBag.ReturnUrl = Url.Action("Manage");
+            return View();
+        }
+
+        //
+        // POST: /Account/Manage
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> Manage(ManageUserViewModel model)
+        {
+            bool hasPassword = HasPassword();
+            ViewBag.HasLocalPassword = hasPassword;
+            ViewBag.ReturnUrl = Url.Action("Manage");
+            if (hasPassword)
+            {
+                if (ModelState.IsValid)
+                {
+                    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
+                }
+            }
+            else
+            {
+                // User does not have a password so remove any validation errors caused by a missing OldPassword field
+                ModelState state = ModelState["OldPassword"];
+                if (state != null)
+                {
+                    state.Errors.Clear();
+                }
+
+                if (ModelState.IsValid)
+                {
+                    IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
+                }
+            }
+
+            // If we got this far, something failed, redisplay form
+            return View(model);
+        }
         [Authorize]
         public ActionResult Logout()
         {
@@ -64,5 +134,32 @@ namespace TalmerMaint.WebUI.Controllers
         {
             get { return HttpContext.GetOwinContext().GetUserManager<AppUserManager>(); }
         }
+
+        private bool HasPassword()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                return user.PasswordHash != null;
+            }
+            return false;
+        }
+
+        public enum ManageMessageId
+        {
+            ChangePasswordSuccess,
+            SetPasswordSuccess,
+            RemoveLoginSuccess,
+            Error
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError("", error);
+            }
+        }
+
     }
 }
