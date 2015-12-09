@@ -126,5 +126,10 @@ namespace TalmerMaint.WebUI.Controllers
         {
             get { return HttpContext.GetOwinContext().GetUserManager<AppRoleManager>(); }
         }
+        protected override void Dispose(bool disposing)
+        {
+
+            base.Dispose(disposing);
+        }
     }
 }

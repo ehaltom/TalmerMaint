@@ -9,6 +9,7 @@ using TalmerMaint.WebUI.Infrastructure;
 using System.Web;
 using TalmerMaint.Domain.Entities;
 using TalmerMaint.Domain.Extensions;
+using TalmerMaint.Domain.Abstract;
 
 namespace TalmerMaint.WebUI.Controllers
 {
@@ -16,6 +17,14 @@ namespace TalmerMaint.WebUI.Controllers
     [HandleErrorWithELMAH]
     public class AccountController : Controller
     {
+        private ILocationRepository context;
+
+        public AccountController(ILocationRepository locationRepository)
+        {
+            this.context = locationRepository;
+        }
+
+
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -74,21 +83,35 @@ namespace TalmerMaint.WebUI.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Manage(ManageUserViewModel model)
-        {
+        { 
+                /***** Logging initial settings *****/
+                DbChangeLog log = new DbChangeLog();
+                log.UserName = User.Identity.Name;
+                log.Controller = "Account";
+                log.Action = "Password Change";
+
+                log.BeforeChange = "Old Password";
+                
+                /***** end Logging initial settings *****/
             bool hasPassword = HasPassword();
             ViewBag.HasLocalPassword = hasPassword;
             ViewBag.ReturnUrl = Url.Action("Manage");
             if (hasPassword)
             {
+
                 if (ModelState.IsValid)
                 {
                     IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
+                        log.AfterChange = "New Password";
+                        context.SaveLog(log);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.ChangePasswordSuccess });
                     }
                     else
                     {
+                        log.AfterChange = "Log in error";
+                        log.Error = result.ToString();
                         AddErrors(result);
                     }
                 }
@@ -107,6 +130,7 @@ namespace TalmerMaint.WebUI.Controllers
                     IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
                     if (result.Succeeded)
                     {
+                        context.SaveLog(log);
                         return RedirectToAction("Manage", new { Message = ManageMessageId.SetPasswordSuccess });
                     }
                     else
@@ -115,7 +139,7 @@ namespace TalmerMaint.WebUI.Controllers
                     }
                 }
             }
-
+            context.SaveLog(log);
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -135,6 +159,14 @@ namespace TalmerMaint.WebUI.Controllers
             get { return HttpContext.GetOwinContext().GetUserManager<AppUserManager>(); }
         }
 
+
+        [ChildActionOnly]
+        public ActionResult RemoveAccountList()
+        {
+            var linkedAccounts = UserManager.GetLogins(User.Identity.GetUserId());
+            ViewBag.ShowRemoveButton = HasPassword() || linkedAccounts.Count > 1;
+            return (ActionResult)PartialView("_RemoveAccountPartial", linkedAccounts);
+        }
         private bool HasPassword()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
@@ -160,6 +192,10 @@ namespace TalmerMaint.WebUI.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+        protected override void Dispose(bool disposing)
+        {
 
+            base.Dispose(disposing);
+        }
     }
 }

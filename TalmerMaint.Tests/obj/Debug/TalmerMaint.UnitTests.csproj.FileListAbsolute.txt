@@ -69,3 +69,5 @@ C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\bin\Debug\NLog.xml
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\obj\Debug\TalmerMaint.UnitTests.csprojResolveAssemblyReference.cache
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\obj\Debug\TalmerMaint.Tests.dll
 C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\obj\Debug\TalmerMaint.Tests.pdb
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\bin\Debug\System.Web.Optimization.dll
+C:\SourceControl_Git\TalmerMaint\TalmerMaint.Tests\bin\Debug\System.Web.Optimization.xml

@@ -9,7 +9,7 @@ namespace TalmerMaint.Domain.Entities
     {
         public Logging()
             //: base("name=EFDbContext")
-            : base("name=TalmerLoggingDbEntities")
+            : base("name=EFDbContext")
         {
         }
 

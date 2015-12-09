@@ -1,12 +1,9 @@
 ﻿using NLog.Config;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using TalmerMaint.WebUI.App_Start;
 using System.Web.Mvc;
 using System.Web.Routing;
 using TalmerMaint.Domain.Extensions;
-
+using System.Web.Optimization;
 
 namespace TalmerMaint.WebUI
 {
@@ -18,6 +15,7 @@ namespace TalmerMaint.WebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             // ControllerBuilder.Current.SetControllerFactory(new ErrorHandlingControllerFactory());
             GlobalFilters.Filters.Add(new HandleErrorWithELMAHAttribute());
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             // Register custom NLog Layout renderers
             ConfigurationItemFactory.Default.LayoutRenderers.RegisterDefinition("utc_date", typeof(Domain.Services.Logging.NLog.UtcDateRenderer));

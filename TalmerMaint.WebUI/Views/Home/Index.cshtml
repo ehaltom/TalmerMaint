@@ -6,13 +6,21 @@
 <h2>Talmer Maintenance</h2>
 <h3>Site Functions</h3>
 
-<div style="padding-bottom:20px;">Not @User.Identity.Name? 
-@Html.ActionLink("Sign Out", "Logout", "Account", null, new { @class = "btn btn-primary btn-xs" })</div>
+<div style="padding-bottom:20px;">
+    Not @User.Identity.Name?
+    @Html.ActionLink("Sign Out", "Logout", "Account", null, new { @class = "btn btn-primary btn-xs" })
+    @Html.ActionLink("Update Password","Manage","Account", null, new { @class = "btn btn-primary btn-xs" })
+
+</div>
 <table class="table table-striped">
     <tr><th>Site Function</th> <th>Description</th><th></th></tr>
+    @if (User.IsInRole("FileDownloads"))
+    {
+    <tr><td>Download XML</td><td>Get zip files representing the data maintained on this site</td><td>@Ajax.ActionLink("Download XML", "Index", "XML",null, new AjaxOptions { HttpMethod="Get" }, new { @class = "btn btn-default btn-xs" })</td></tr>
+    }
     @if (User.IsInRole("LocationAdmin"))
     {
-       <tr><td>Branch Locations</td><td>Create, Edit and Delete banking locations</td><td>@Html.ActionLink("Edit Locations", "Index", "Locations", null, new { @class = "btn btn-default btn-xs" })</td></tr> 
+        <tr><td>Branch Locations</td><td>Create, Edit and Delete banking locations</td><td>@Html.ActionLink("Edit Locations", "Index", "Locations", null, new { @class = "btn btn-default btn-xs" })</td></tr>
     }
     @if (User.IsInRole("RatesAdmin"))
     {
@@ -22,7 +30,7 @@
     {
         <tr><td>Site Managers</td><td>Create, Edit and Delete users of this site</td><td>@Html.ActionLink("Edit Managers", "Index", "Users", null, new { @class = "btn btn-default btn-xs" })</td></tr>
         <tr><td>Site Roles</td><td>Create, Edit and Delete roles with this site</td><td>@Html.ActionLink("Edit Roles", "Index", "RoleAdmin", null, new { @class = "btn btn-default btn-xs" })</td></tr>
-        
+
     }
     @if (User.IsInRole("Logging"))
     {
