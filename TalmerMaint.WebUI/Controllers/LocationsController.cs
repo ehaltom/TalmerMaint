@@ -54,7 +54,7 @@ namespace TalmerMaint.WebUI.Controllers
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = count
+                    TotalItems = repo.Locations.Where(l => search == null || l.Name.Contains(search) || l.City.Contains(search) || l.Address1.Contains(search)).Where(e => e.State == state).Count()
                 },
                 CurrentState = state
             };
