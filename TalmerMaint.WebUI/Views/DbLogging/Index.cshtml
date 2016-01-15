@@ -1,0 +1,111 @@
+﻿@model TalmerMaint.WebUI.Models.DbLoggingPagingViewModel
+
+@{
+    ViewBag.Title = "Database Change Log";
+}
+<h2>Database Change Log</h2>
+
+<ol class="breadcrumb margin-bottom-none">
+    <li><a href="~/">Home</a></li>
+    <li>@Html.ActionLink("Logging", "Index","Logging")</li>
+    <li>Database Change Log</li>
+</ol>
+<div class="row">
+    <div class="col-xs-6 margin-top-ten">
+
+        @string.Format("{0} records found. Page {1} of {2}", Model.PagingInfo.TotalItems, Model.PagingInfo.CurrentPage, Model.PagingInfo.TotalPages)
+        <div class="btn-group pull-right" style="margin-bottom:20px;">
+            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, username = Model.Username, cont = Model.Controller, act = Model.Action, itemId = Model.ItemId, PageSize = Model.PagingInfo.ItemsPerPage }))
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <form class="form-inline pull-right margin-top-ten" id="filtering">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                @Html.DropDownList("username", new SelectList(Model.Usernames, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label for="username">Controller:</label>
+                @Html.DropDownList("cont", new SelectList(Model.Controllers, "Value", "Text"), new { @class = "form-control" })
+            </div>
+            <input id="btnGo" class="btn btn-primary" name="btnGo" type="submit" value="Apply Filter" />
+            <div class="col-xs-12 text-right padding-top-ten margin-bottom-ten">
+                Show @Html.DropDownList("PageSize", new SelectList(TalmerMaint.Domain.Helpers.FormsHelper.PagingPageSizes, "Value", "Text", Model.PagingInfo.ItemsPerPage), new { onchange = "document.getElementById('filtering').submit()", @class = "form-control" }) results per page
+            </div>
+
+        </form>
+    </div>
+
+</div>
+<table class="table">
+    <tr>
+        <th></th>
+        <th>Change ID</th>
+        <th>
+            Username
+        </th>
+        <th>
+            Controller
+        </th>
+        <th>
+            Action
+        </th>
+        <th>
+            Item ID
+        </th>
+        <th>
+            Date/Time
+        </th>
+        <th>
+            Success
+        </th>
+        <th>
+            Error
+        </th>
+    </tr>
+
+@foreach (var item in Model.Logs) {
+    <tr>
+        <td>@Html.ActionLink("Details", "Details", new { id = item.Id })</td>
+        <td>@item.Id</td>
+        <td>
+            
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Controller)
+        </td>
+        @if (item.Action == "Delete")
+        {
+            <td class="text-danger">
+                <strong>@item.Action</strong>
+            </td>
+        }
+        else
+        {
+            <td>
+                @item.Action
+            </td>
+        }
+        <td>
+            @Html.DisplayFor(modelItem => item.ItemId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DateTime)
+        </td>
+        <td>
+
+            @if (item.Success) { <span>Yes</span> }
+            else
+            {
+               <span>No</span>
+                        }
+        </td>
+        <td>
+            @Html.Raw(item.Error)
+        </td>
+    </tr>
+}
+
+</table>
