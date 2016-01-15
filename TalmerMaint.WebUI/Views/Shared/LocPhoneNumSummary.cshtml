@@ -1,5 +1,5 @@
 ﻿@using TalmerMaint.Domain.Entities
-@model IEnumerable<LocPhoneNums>
+@model Location
 
 <table class="table table-striped">
     <tr>
@@ -8,9 +8,9 @@
         <th>Extensions</th>
         <th>Actions</th>
     </tr>
-    @if (Model == null || !Model.Any())
+    @if (Model.LocPhoneNums == null || !Model.LocPhoneNums.Any())
     {
-        if (Model == null)
+        if (Model.LocPhoneNums == null)
         {
             <tr><td colspan="3" class="text-center">Phones can only be defined when the location has been saved</td></tr>
 
@@ -24,7 +24,7 @@
     }
     else
     {
-        foreach (LocPhoneNums phones in Model)
+        foreach (LocPhoneNums phones in Model.LocPhoneNums)
         {
             <tr>
                 <td>@phones.Name</td>
@@ -49,4 +49,9 @@
 
         }
     }
+    <tr>
+        <td colspan="4">
+            <a class="btn btn-primary btn-xs" href="~/LocPhoneNums/Manage/@Model.Id"><i class="fa fa-plus"></i> Add New Service</a>
+        </td>
+    </tr>
 </table>

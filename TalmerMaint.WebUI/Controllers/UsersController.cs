@@ -85,59 +85,6 @@ namespace TalmerMaint.WebUI.Controllers
                 return RedirectToAction("Index");
             }
         }
-        [HttpPost]
-        public async Task<ActionResult> Edit(string id, string email, string password)
-        {
-            AppUser user = UserManager.FindById(id);
-            if (user != null)
-            {
-                user.Email = email;
-                IdentityResult validEmail = await UserManager.UserValidator.ValidateAsync(user);
-                if (!validEmail.Succeeded)
-                {
-                    AddErrorsFromResult(validEmail);
-                }
-                IdentityResult validPass = null;
-                if(password != string.Empty)
-                {
-                    validPass = await UserManager.PasswordValidator.ValidateAsync(password);
-                    if (validPass.Succeeded)
-                    {
-                        user.PasswordHash = UserManager.PasswordHasher.HashPassword(password);
-                    }
-                    else
-                    {
-                        AddErrorsFromResult(validPass);
-                    }
-
-                }
-                if((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
-                {
-                    IdentityResult result = UserManager.Update(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                }
-                if((validEmail.Succeeded && validPass == null) || (validEmail.Succeeded && password != string.Empty && validPass.Succeeded))
-                {
-                    IdentityResult result = UserManager.Update(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        AddErrorsFromResult(result);
-                    }
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "User not found!");
-            }
-            return View(user);
-        }
         private void AddErrorsFromResult(IdentityResult result)
         {
             foreach(string error in result.Errors)

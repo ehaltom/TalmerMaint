@@ -12,7 +12,7 @@
     <li>Manage Phones</li>
 </ol>
 <div class="col-md-6">
-    @Html.Partial("LocPhoneNumsummary", Model.Location.LocPhoneNums)
+    @Html.Partial("LocPhoneNumsummary", Model.Location)
 </div>
 <div class="col-md-6">
     @using (Html.BeginForm("Edit", "LocPhoneNums"))

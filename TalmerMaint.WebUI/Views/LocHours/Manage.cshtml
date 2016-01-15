@@ -8,7 +8,7 @@
 @Html.ActionLink("Return to location", "Edit", "Locations", new { id = Model.Location.Id }, new { @class = "btn btn-default" })
 <hr />
 <div class="col-md-6">
-    @Html.Partial("LocHourSummary", Model.Location.LocHourCats)
+    @Html.Partial("LocHourSummary", Model.Location)
 </div>
 <div class="col-md-6">
     @using (Html.BeginForm("Edit", "LocHours"))

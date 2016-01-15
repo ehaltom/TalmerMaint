@@ -31,6 +31,14 @@ namespace TalmerMaint.WebUI.Migrations
             {
                 roleMgr.Create(new AppRole(roleName));
             }
+            if (!roleMgr.RoleExists("Logging"))
+            {
+                roleMgr.Create(new AppRole("Logging"));
+            }
+            if (!roleMgr.RoleExists("LocationAdmin"))
+            {
+                roleMgr.Create(new AppRole("LocationAdmin"));
+            }
             AppUser user = userMgr.FindByName(userName);
             if (user == null)
             {

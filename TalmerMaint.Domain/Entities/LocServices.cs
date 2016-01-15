@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace TalmerMaint.Domain.Entities
 {
@@ -12,6 +13,7 @@ namespace TalmerMaint.Domain.Entities
         public string Name { get; set; }
 
         [Required(ErrorMessage = "A description is required")]
+        [AllowHtml]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 

@@ -28,8 +28,11 @@
                     @using (Html.BeginForm("Delete", "Users",
                                         new { id = user.Id }))
                     {
-                        @Html.ActionLink("Edit", "Edit", new { id = user.Id },
+                        if (User.Identity.Name == user.UserName)
+                        {
+                            @Html.ActionLink("Edit", "Edit", new { id = user.Id },
                        new { @class = "btn btn-primary btn-xs" })
+                        }
                         <button class="btn btn-danger btn-xs" type="submit">Delete</button>
                     }
                 </td>

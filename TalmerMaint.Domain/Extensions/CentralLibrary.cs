@@ -278,7 +278,7 @@ namespace TalmerMaint.Domain.Extensions
     }
 
     public class DbLogExtensions{
-        public static string LocationToString(Location loc, string img)
+        public static string LocationToString(Location loc)
         {
             string locString = "<table class='table table-striped'><tr><th>ID:</th><td>" + loc.Id.ToString() + "</td></tr>";
             locString += "<tr><th>Name:</th><td>" + loc.Name + "</td></tr>";
@@ -294,23 +294,7 @@ namespace TalmerMaint.Domain.Extensions
             locString += "<tr><th>Description:</th><td>" + loc.Description + "</td></tr>";
             locString += "<tr><th>Latitude:</th><td>" + loc.Latitude + "</td></tr>";
             locString += "<tr><th>Longitude:</th><td>" + loc.Longitude + "</td></tr>";
-            locString += "<tr><th>Image Mime Type:</th><td>" + loc.ImageMimeType + "</td></tr>";
-            locString += "<tr><th>Image Data:</th><td>";
-            if (img == "") {
-                if(loc.ImageMimeType != null && loc.ImageMimeType != "deleted")
-                {
-                    locString += "Existing Image";
-                }
-                else
-                {
-                    locString += "No Existing Image";
-                }
-            }
-            else
-            {
-                locString += img;
-            }
-            locString += "</td></tr>";
+            
             locString += "</table>";
             return locString;
         }
@@ -372,6 +356,32 @@ namespace TalmerMaint.Domain.Extensions
             locString += "<tr><th>Icon Class Name:</th><td>" + serv.IconClassName + "</td></tr>";
             locString += "<tr><th>Featured?:</th><td>" + serv.Featured.ToString() + "</td></tr>";
             locString += "<tr><th>Location ID:</th><td>" + serv.LocationId + "</td></tr>";
+            locString += "</table>";
+            return locString;
+        }
+        public static string LocImageToString(LocImage img, string imgStatus)
+        {
+            string locString = "<table class='table table-striped'>";
+            locString += "<tr><th>ID:</th><td>" + img.Id.ToString() + "</td></tr>";
+            locString += "<tr><th>Featured Image?</th><td>" + img.FeaturedImg.ToString() + "</td></tr>";
+            locString += "<tr><th>Image Mime Type:</th><td>" + img.ImageMimeType + "</td></tr>";
+            locString += "<tr><th>Image Data:</th><td>";
+            if (imgStatus == "")
+            {
+                if (img.ImageMimeType != null && img.ImageMimeType != "deleted")
+                {
+                    locString += "Existing Image";
+                }
+                else
+                {
+                    locString += "No Existing Image";
+                }
+            }
+            else
+            {
+                locString += imgStatus;
+            }
+            locString += "</td></tr>";
             locString += "</table>";
             return locString;
         }

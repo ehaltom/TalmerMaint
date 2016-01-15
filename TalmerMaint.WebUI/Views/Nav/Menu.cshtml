@@ -9,7 +9,7 @@
 
         @Html.RouteLink(TalmerMaint.Domain.Extensions.CentralLibrary.GetStateName(link), new { controller = "Locations", action = "Index", state = link, page = 1 }, new { @class = "btn btn-block btn-default btn-lg" + (link == ViewBag.SelectedState ? " btn-primary" : "") })
     }
-    <div class="margin-top-ten hidden">
+    <div class="margin-top-ten">
         @using (Ajax.BeginForm(new AjaxOptions
         {
             HttpMethod = "get",

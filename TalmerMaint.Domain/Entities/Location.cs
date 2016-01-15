@@ -56,19 +56,18 @@ namespace TalmerMaint.Domain.Entities
         [Range(-180, 180, ErrorMessage = "Please enter a valid Latitude")]
         public double Longitude { get; set; }
 
-        public byte[] ImageData { get; set; }
-
-        [MaxLength(50)]
-        public string ImageMimeType { get; set; }
-
+        [AllowHtml]
         [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
+        [Display(Name="Manager Name")]
         [MaxLength(200, ErrorMessage = "You have exceeded the maximum character limit (200)")]
         public string ManagerName { get; set; }
 
         public ICollection<LocHourCats> LocHourCats { get; set; }
         public ICollection<LocPhoneNums> LocPhoneNums { get; set; }
         public ICollection<LocServices> LocServices { get; set; }
+
+        public LocImage LocImage { get; set; }
     }
 }

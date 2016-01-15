@@ -9,10 +9,8 @@
     <div class="col-md-8">
         @Html.ActionLink("Add a new Loction", "Create", null, new { @class = "btn btn-default" })
         <hr />
-@Html.Partial("LocationSummary", Model.Locations)
-        <div class="btn-group pull-right" style="margin-bottom:20px;">
-            @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, state = Model.CurrentState }))
-        </div>
+        @Html.Partial("LocationSummary", Model)
+        
     </div>
     <div class="col-md-4 relative">
         @Html.Action("Menu", "Nav")

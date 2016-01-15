@@ -3,7 +3,7 @@
     ViewBag.Title = "Talmer Maintenance";
 }
 
-<h2>Talmer Maintenance</h2>
+<h2>TalmerBank Maintenance</h2>
 <h3>Site Functions</h3>
 
 <div style="padding-bottom:20px;">
@@ -16,7 +16,7 @@
     <tr><th>Site Function</th> <th>Description</th><th></th></tr>
     @if (User.IsInRole("FileDownloads"))
     {
-    <tr><td>Download XML</td><td>Get zip files representing the data maintained on this site</td><td>@Ajax.ActionLink("Download XML", "Index", "XML",null, new AjaxOptions { HttpMethod="Get" }, new { @class = "btn btn-default btn-xs" })</td></tr>
+    <tr><td>Download XML</td><td>Get zip files representing the data maintained on this site</td><td>@Html.ActionLink("Download XML", "Index", "XML",null, new { @class = "btn btn-default btn-xs" })</td></tr>
     }
     @if (User.IsInRole("LocationAdmin"))
     {

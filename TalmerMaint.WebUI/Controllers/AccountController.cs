@@ -24,13 +24,13 @@ namespace TalmerMaint.WebUI.Controllers
             this.context = locationRepository;
         }
 
-
+        
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
             if (HttpContext.User.Identity.IsAuthenticated)
             {
-                return View("Error", new string[] { "Access Denied: You do not have permission for that area of this site, please email "+ TalmerMaint.WebUI.Views.DataInfo.MaintenanceEmailGroup +" with questions." });
+                return RedirectToAction("Index", "Home");
             }
             ViewBag.returnUrl = returnUrl;
             return View();
@@ -39,6 +39,9 @@ namespace TalmerMaint.WebUI.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [HandleError(
+    ExceptionType = typeof(HttpAntiForgeryException),
+    View = "~/Views/ErrorPages/NoAntiForgToken.cshtml")]
         public ActionResult Login(LoginModel details, string returnUrl)
         {
             if (ModelState.IsValid)

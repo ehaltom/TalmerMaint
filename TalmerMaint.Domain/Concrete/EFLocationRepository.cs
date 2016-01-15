@@ -4,6 +4,8 @@ using System.Data;
 using TalmerMaint.Domain.Abstract;
 using TalmerMaint.Domain.Entities;
 using System.Web;
+using System.Data.Linq;
+using System;
 
 namespace TalmerMaint.Domain.Concrete
 {
@@ -13,14 +15,43 @@ namespace TalmerMaint.Domain.Concrete
 
 
 
-        public IEnumerable<Location> Locations { get { return
-                    context.Locations
+        public IEnumerable<Location> Locations { get { 
+                return context.Locations
                         .Include("LocHourCats")
                         .Include("LocPhoneNums")
                         .Include("LocServices")
                         .ToList();
-                    } }
+            }
+        }
+
+        public Location LocationByID(int id)
+        {
+            return context.Locations
+                .Include("LocHourCats")
+                .Include("LocPhoneNums")
+                .Include("LocServices")
+                .Include("LocImage")
+                .FirstOrDefault(l => l.Id == id);
+                
+        }
+        public LocImage ImageByLocationID(int id)
+        {
+            LocImage img = (from n in context.LocImages
+                           where n.LocationId == id
+                           where n.FeaturedImg == true
+                           select n).FirstOrDefault();
+            
+            /*LocImage img = context.LocImages
+                .FirstOrDefault(l => l.LocationId == id);
+            */
+            
+            return (img != null) ? img: new LocImage();
+
+        }
+
+
         public IEnumerable<LocServices> LocServices { get { return context.LocServices; } }
+        public IEnumerable<LocImage> LocImages { get { return context.LocImages; } }
         public IEnumerable<LocHourCats> LocHourCats { get { return context.LocHourCats; } }
         public IEnumerable<LocHours> LocHours { get { return context.LocHours; } }
         public IEnumerable<LocPhoneNums> LocPhoneNums { get { return context.LocPhoneNums; } }
@@ -67,8 +98,6 @@ namespace TalmerMaint.Domain.Concrete
             locTable.Columns.Add("NoAtm", typeof(bool));
             locTable.Columns.Add("Latitude", typeof(double));
             locTable.Columns.Add("Longitude", typeof(double));
-            locTable.Columns.Add("ImageData", typeof(byte[]));
-            locTable.Columns.Add("ImageMimeType", typeof(string));
             locTable.Columns.Add("ManagerName", typeof(string));
             foreach (Location loc in context.Locations)
             {
@@ -86,8 +115,6 @@ namespace TalmerMaint.Domain.Concrete
                     loc.NoAtm,
                     loc.Latitude,
                     loc.Longitude,
-                    loc.ImageData,
-                    loc.ImageMimeType,
                     loc.ManagerName});
                 
                 
@@ -96,7 +123,7 @@ namespace TalmerMaint.Domain.Concrete
         }
         private void SaveLocHoursXMLFile()
         {
-            DataSet dataSet = new DataSet();
+            DataSet dataSet = new DataSet("HourInfo");
             DataTable catTable = new DataTable("cats");
             catTable.TableName = "LocHourCats";
             catTable.Columns.Add("Id", typeof(int));
@@ -182,11 +209,34 @@ namespace TalmerMaint.Domain.Concrete
             }
             locTable.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/LocServices.xml"));
         }
+        private void SaveLocImageXMLFile()
+        {
+            DataTable locTable = new DataTable("LocImage");
+            locTable.Columns.Add("Id", typeof(int));
+            locTable.Columns.Add("FeaturedImg", typeof(bool));
+            locTable.Columns.Add("ImageData", typeof(byte[]));
+            locTable.Columns.Add("ImageMimeType", typeof(string));
+            locTable.Columns.Add("LocationId", typeof(int));
+            foreach (LocImage loc in context.LocImages)
+            {
+
+                locTable.Rows.Add(new object[] {
+                    loc.Id,
+                    loc.FeaturedImg,
+                    loc.ImageData,
+                    loc.ImageMimeType,
+                    loc.LocationId
+                    });
+
+
+            }
+            locTable.WriteXml(HttpContext.Current.Server.MapPath("~/XMLOutput/LocImages.xml"));
+        }
         private void SaveLocPhonesXMLFile()
         {
             DataSet dataSet = new DataSet("LocPhones");
             DataTable phoneTable = new DataTable("phones");
-            phoneTable.TableName = "LocHourCats";
+            phoneTable.TableName = "PhoneNums";
             phoneTable.Columns.Add("Id", typeof(int));
             phoneTable.Columns.Add("Name", typeof(string));
             phoneTable.Columns.Add("Number", typeof(string));
@@ -196,7 +246,7 @@ namespace TalmerMaint.Domain.Concrete
 
 
             DataTable extTable = new DataTable("exts");
-            extTable.TableName = "LocPhoneExts";
+            extTable.TableName = "PhoneExts";
             extTable.Columns.Add("Id", typeof(int));
             extTable.Columns.Add("Name", typeof(string));
             extTable.Columns.Add("Number", typeof(string));
@@ -248,7 +298,7 @@ namespace TalmerMaint.Domain.Concrete
         /**************************************
         Save functions
         *************************************/
-        public void SaveLocation(Location loc, bool addImg)
+        public void SaveLocation(Location loc)
         {
             if (loc.Id == 0)
             {
@@ -268,17 +318,7 @@ namespace TalmerMaint.Domain.Concrete
                     dbEntry.Zip = loc.Zip;
                     dbEntry.Latitude = loc.Latitude;
                     dbEntry.Longitude = loc.Longitude;
-                    /****
-                    Update-Liked
-                    Images are saved to the database because the images are used on multiple 
-                    sites, therefore cannot be saved in a local directory. Perhaps we can save these images in the cdn
-                    that Josh set up.
-                    ****/
-                    if (addImg)
-                    {
-                        dbEntry.ImageData = loc.ImageData;
-                        dbEntry.ImageMimeType = loc.ImageMimeType;
-                    }
+
                     dbEntry.Description = loc.Description;
                     dbEntry.ManagerName = loc.ManagerName;
                     dbEntry.NoAtm = loc.NoAtm;
@@ -347,6 +387,26 @@ namespace TalmerMaint.Domain.Concrete
             }
             context.SaveChanges();
             SaveLocServicesXMLFile();
+        }
+        public void SaveLocImage(LocImage image)
+        {
+            if (image.Id == 0)
+            {
+                context.LocImages.Add(image);
+            }
+            else
+            {
+                LocImage dbEntry = context.LocImages.Find(image.Id);
+                if (dbEntry != null)
+                {
+                    dbEntry.FeaturedImg = image.FeaturedImg;
+                    dbEntry.ImageMimeType = image.ImageMimeType;
+                    dbEntry.ImageData = image.ImageData;
+                    dbEntry.LocationId = image.LocationId;
+                }
+            }
+            context.SaveChanges();
+            SaveLocImageXMLFile();
         }
         public void SaveLocPhoneNum(LocPhoneNums phone)
         {
@@ -439,6 +499,18 @@ namespace TalmerMaint.Domain.Concrete
 
                 context.SaveChanges();
                 SaveLocServicesXMLFile();
+            }
+            return dbEntry;
+        }
+        public LocImage DeleteLocImage(int id)
+        {
+            LocImage dbEntry = context.LocImages.Find(id);
+            if (dbEntry != null)
+            {
+                context.LocImages.Remove(dbEntry);
+
+                context.SaveChanges();
+                SaveLocImageXMLFile();
             }
             return dbEntry;
         }

@@ -2639,39 +2639,7 @@ Hours = "9am-4pm"
     Latitude = 42.6821303,
     Longitude = -83.1338296
 },
-new Location
-{
-    Name = "Rockville (Mortgage Services Only)",
-    Address1 = "15400 Calhoun Drive",
-    Address2 = "Suite 170",
-    City = "Rockville",
-    Zip = "20855",
-    State = "MD",
-    LocPhoneNums = new List<LocPhoneNums>
-{
-new LocPhoneNums{
-Name = "Phone",
-Number = "301-279-5150"
-}
-},
-    LocHourCats = new List<LocHourCats>
-{
-     new LocHourCats{
-          Name = "Hours",
-          LocHours = new List<LocHours>
-{
-new LocHours{
-Days = "Mon - Fri",
-Hours = "9am-5pm"
-}
-}
-    }
-},
-    AtmOnly = false,
-    NoAtm = true,
-    Latitude = 39.1071966,
-    Longitude = -77.1503091
-},
+
 new Location
 {
     Name = "Rootstown",

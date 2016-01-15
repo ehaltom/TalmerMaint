@@ -9,14 +9,21 @@ namespace TalmerMaint.Domain.Abstract
     {
         IEnumerable<Location> Locations { get; }
         IEnumerable<LocServices> LocServices{ get; }
+        IEnumerable<LocImage> LocImages { get; }
         IEnumerable<LocHours> LocHours { get; }
         IEnumerable<LocHourCats> LocHourCats { get; }
         IEnumerable<LocPhoneNums> LocPhoneNums { get; }
         IEnumerable<LocPhoneExts> LocPhoneExts { get; }
+
+
+        Location LocationByID(int id);
+        LocImage ImageByLocationID(int id);
+
         /**************************************
         Save functions
         *************************************/
-        void SaveLocation(Location loc, bool addImg);
+        void SaveLocation(Location loc);
+        void SaveLocImage(LocImage img);
         void SaveLocHourCat(LocHourCats cat);
         void SaveLocHours(LocHours hours);
         void SaveLocService(LocServices service);
@@ -32,6 +39,7 @@ namespace TalmerMaint.Domain.Abstract
         LocPhoneNums DeleteLocPhoneNum(int id);
         LocPhoneExts DeleteLocPhoneExt(int id);
         LocServices DeleteLocService(int id);
+        LocImage DeleteLocImage(int id);
 
         IEnumerable<LocServices> LocServicesByLocId(int id);
         IEnumerable<LocPhoneNums> LocPhoneNumsByLocId(int id);

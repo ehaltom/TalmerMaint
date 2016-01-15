@@ -13,5 +13,9 @@ namespace TalmerMaint.WebUI.Controllers
         {
             return View();
         }
+        public ActionResult NoAntiForgToken()
+        {
+            return View();
+        }
     }
 }

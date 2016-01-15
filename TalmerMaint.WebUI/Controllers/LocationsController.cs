@@ -24,29 +24,44 @@ namespace TalmerMaint.WebUI.Controllers
            
         }
 
-        // GET: Location
-        public ViewResult Index(string state, int page = 1, string search = null)
+        public ActionResult Autocomplete(string term)
         {
-            
-            LocationListViewModel model = new LocationListViewModel
-            {
-                Locations = repo.Locations
+            var model = repo.Locations
+                .Where(l => l.Name.Contains(term) || l.City.Contains(term) || l.Address1.Contains(term))
+                .Take(10)
+                .Select(l => new
+                {
+                    label = l.Name
+                });
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        // GET: Location
+        public ActionResult Index(string state, int page = 1, string search = null)
+        {
+            IEnumerable<Location> locs = repo.Locations
                 .Where(l => state == null || l.State == state)
-                .Where(l => search == null || l.Name.Contains(search))
+                .Where(l => search == null || l.Name.Contains(search) || l.City.Contains(search) || l.Address1.Contains(search))
                 .OrderBy(l => l.Name)
                 .Skip((page - 1) * PageSize)
-                .Take(PageSize),
+                .Take(PageSize);
+            int count = locs.Count();
+            LocationListViewModel model = new LocationListViewModel
+            {
+                Locations = locs,
 
                 PagingInfo = new PagingInfo
                 {
                     CurrentPage = page,
                     ItemsPerPage = PageSize,
-                    TotalItems = state == null ?
-                    repo.Locations.Count() :
-                    repo.Locations.Where(e => e.State == state).Count()
+                    TotalItems = count
                 },
                 CurrentState = state
             };
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("LocationSummary", model);
+            }
             return View(model);
         }
 
@@ -57,13 +72,15 @@ namespace TalmerMaint.WebUI.Controllers
         }
         public ViewResult Edit(int id)
         {
-            Location loc = repo.Locations
+            Location model = repo.Locations
                 .FirstOrDefault(p => p.Id == id);
-            return View(loc);
+            model.LocImage = repo.ImageByLocationID(id);
+            model.LocImage.LocationId = id;
+            return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(Location loc, HttpPostedFileBase image = null)
+        public ActionResult Edit(Location loc)
         {
             /***** Logging initial settings *****/
             DbChangeLog log = new DbChangeLog();
@@ -74,49 +91,16 @@ namespace TalmerMaint.WebUI.Controllers
             if (log.Action == "Edit")
             {
                 Location oldLoc = repo.Locations.FirstOrDefault(m => m.Id == loc.Id);
-                log.BeforeChange = Domain.Extensions.DbLogExtensions.LocationToString(oldLoc, "");
+                log.BeforeChange = Domain.Extensions.DbLogExtensions.LocationToString(oldLoc);
             }
             /***** end Logging initial settings *****/
 
 
             if (ModelState.IsValid)
             {
-                
-                
-                
-                
-                // without addImg the image is deleted when a location
-                // is updated unless you are replacing the image.
-                // addImg when false runs through adding a new image
-                // which will delete the current image.
-                bool addImg = false;
-                string imgText = "";
-                if (image != null)
-                {
-                    imgText = "An image has been uploaded.";
-                    loc.ImageMimeType = image.ContentType;
-                    loc.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(loc.ImageData, 0, image.ContentLength);
-                    addImg = true;
-                    
-                }
-                else if(loc.ImageMimeType == "deleted")
-                {
-                    imgText = "An image has been deleted";
-                    addImg = true;
-
-                }
-                else
-                {
-                    imgText = "No image actions were taken on this transaction.";
-                }
-                
-                
-                
-
                 try { 
-                    repo.SaveLocation(loc, addImg);
-                    log.AfterChange = Domain.Extensions.DbLogExtensions.LocationToString(loc, imgText);
+                    repo.SaveLocation(loc);
+                    log.AfterChange = Domain.Extensions.DbLogExtensions.LocationToString(loc);
                     log.Success = true;
                     TempData["message"] = string.Format("{0} has been saved", loc.Name);
                 }
@@ -159,7 +143,7 @@ namespace TalmerMaint.WebUI.Controllers
             log.Action = ControllerContext.RouteData.Values["action"].ToString();
             log.ItemId = id;
             
-            log.BeforeChange = Domain.Extensions.DbLogExtensions.LocationToString(deletedLocation, "");
+            log.BeforeChange = Domain.Extensions.DbLogExtensions.LocationToString(deletedLocation);
             if(deletedLocation != null)
             {
                 log.Success = true;
@@ -176,23 +160,7 @@ namespace TalmerMaint.WebUI.Controllers
             return RedirectToAction("Index");
         }
 
-        public FileContentResult GetImage(int id)
-        {
-            Location loc = repo.Locations
-                .FirstOrDefault(l => l.Id == id);
-            if(loc != null)
-            {
-                return File(loc.ImageData, loc.ImageMimeType);
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public FileContentResult ParseImage(byte[] image, string mime)
-        {
-                return File(image, mime);
-        }
+        
 
 
     }

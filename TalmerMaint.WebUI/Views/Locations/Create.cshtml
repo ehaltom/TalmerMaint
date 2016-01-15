@@ -76,25 +76,6 @@
                         }
 
                     }
-                    <div class="form-group">
-                        <label class="col-sm-3 control-label">Image</label>
-                        <div class="col-sm-9" style="position:relative;">
-
-                            <a class='btn' href='javascript:;'>Choose File...</a><input type="file" name="Image" size="40" style="position:absolute;z-index:2;top:0;left:0;filter:alpha(opacity=0);opacity:0;background-color:transparent;color:transparent;" onchange='$("#upload-file-info").html($(this).val());' />
-                            <span class="label label-info" id="upload-file-info"></span><br />
-                            @if (Model.ImageData == null)
-                            {
-                                <div class="form-control-static">No Image has been uploaded</div>
-
-                            }
-                            else
-                            {
-                                <img class="img-thumbnail loc-img" width="150" height="150" src="@Url.Action("GetImage", "Locations", new { Model.Id })" alt="location thumbnail" />
-                                <a class="btn btn-default removeImg">Delete Image</a>
-                            }
-                        </div>
-
-                    </div>
                 </div>
                 <input type="submit" value="Save" class="btn btn-primary" />
                 @Html.ActionLink("Cancel and return to List", "Index", null, new { @class = "btn btn-default" })

@@ -19,9 +19,7 @@ namespace TalmerMaint.Tests
             Location loc = new Location
             {
                 Id = 2,
-                Name = "Test",
-                ImageData = new byte[] { },
-                ImageMimeType = "image/png"
+                Name = "Test"
             };
 
             // Arrange - create the mock repository
@@ -34,7 +32,7 @@ namespace TalmerMaint.Tests
             }.AsQueryable());
 
             // Arrange - create the controller
-            LocationsController target = new LocationsController(mock.Object);
+            LocImageController target = new LocImageController(mock.Object);
 
             // Act - call the GetImage action method
             ActionResult result = target.GetImage(2);
@@ -42,7 +40,6 @@ namespace TalmerMaint.Tests
             // Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(FileResult));
-            Assert.AreEqual(loc.ImageMimeType, ((FileResult)result).ContentType);
         }
 
         [TestMethod]
@@ -60,7 +57,7 @@ namespace TalmerMaint.Tests
             }.AsQueryable());
 
             // Arrange - create the controller
-            LocationsController target = new LocationsController(mock.Object);
+            LocImageController target = new LocImageController(mock.Object);
 
             // Act - call the GetImage action method
             ActionResult result = target.GetImage(100);

@@ -1,8 +1,7 @@
-﻿@using TalmerMaint.Domain.Entities
-@model IEnumerable<Location>
+﻿@model TalmerMaint.WebUI.Models.LocationListViewModel
 
 <div id="locList">
-    @foreach (var l in Model)
+    @foreach (var l in Model.Locations)
             {
         
 
@@ -34,4 +33,7 @@
             </div>
         </div>
     }
+    <div class="btn-group pull-right" style="margin-bottom:20px;">
+        @Html.PageLinks(Model.PagingInfo, x => Url.Action("Index", new { page = x, state = Model.CurrentState }))
+    </div>
 </div>

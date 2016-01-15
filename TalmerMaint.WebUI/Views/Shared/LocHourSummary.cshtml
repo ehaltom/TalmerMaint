@@ -1,8 +1,8 @@
 ﻿@using TalmerMaint.Domain.Entities
-@model IEnumerable<LocHourCats>
+@model Location
 <table class="table table-striped">
 
-    @if (Model == null || !Model.Any())
+    @if (Model.LocHourCats == null || !Model.LocHourCats.Any())
     {
         if (Model == null)
         {
@@ -19,9 +19,9 @@
     else
     {
        
-        foreach (LocHourCats cats in Model)
+        foreach (LocHourCats cats in Model.LocHourCats)
         {
-            <tr><th>@cats.Name</th><th colspan="3"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add Hours</a></th><td>
+            <tr><th>@cats.Name</th><th colspan="3"><a href="~/LocHours/Manage/@cats.Id" class="btn btn-primary btn-xs" type="submit"><i class="fa fa-arrow-down"></i> Add @cats.Name</a></th><td>
                 @using (Html.BeginForm("Delete", "LocHourCats",
                                             new { id = cats.Id, locId = cats.LocationId }, FormMethod.Post, new { @class = "deleteConfirm" }))
                 {
@@ -31,7 +31,7 @@
                     <button class="btn btn-danger btn-xs" type="submit">Delete</button>
                 }
                 </td></tr>
-
+                <tr></tr>
             foreach(LocHours hours in cats.LocHours.OrderBy(m=>m.Priority)) {
             <tr>
                 <td></td>
@@ -52,5 +52,9 @@
             }
 
         }
+        <tr><td colspan="5">
+
+                <a class="btn btn-primary btn-xs" href="~/LocHourCats/Manage/@Model.Id"><i class="fa fa-plus"></i> Add New Category</a>
+            </td></tr>
     }
 </table>

@@ -33,10 +33,10 @@ namespace TalmerMaint.Tests
 
             LocationsController controller = new LocationsController(mock.Object);
             controller.PageSize = 3;
-
+            ViewResult indx = (ViewResult)controller.Index(null, 2);
             //Act
             LocationListViewModel result = 
-                (LocationListViewModel)controller.Index(null, 2).Model;
+                (LocationListViewModel)indx.Model;
 
             //Assert
             Location[] prodArray = result.Locations.ToArray();
@@ -99,9 +99,10 @@ namespace TalmerMaint.Tests
             LocationsController controller = new LocationsController(mock.Object);
 
             controller.PageSize = 3;
-
+            ViewResult indx = (ViewResult)controller.Index(null, 2);
             //Act
-            LocationListViewModel result = (LocationListViewModel)controller.Index(null, 2).Model;
+            LocationListViewModel result =
+                (LocationListViewModel)indx.Model;
 
             //Assert
             PagingInfo pageInfo = result.PagingInfo;
@@ -131,8 +132,10 @@ namespace TalmerMaint.Tests
             LocationsController controller = new LocationsController(mock.Object);
             controller.PageSize = 3;
 
+            ViewResult indx = (ViewResult)controller.Index("MI", 1);
+            
             // Action 
-            Location[] result = ((LocationListViewModel)controller.Index("MI", 1).Model)
+            Location[] result = ((LocationListViewModel)indx.Model)
                 .Locations.ToArray();
             //Assert
             Assert.AreEqual(result.Length, 3);
@@ -227,17 +230,16 @@ namespace TalmerMaint.Tests
             // Arrange - create the controller
             LocationsController target = new LocationsController(mock.Object);
             target.PageSize = 3;
-
+            ViewResult indx = (ViewResult)target.Index("MI");
+            ViewResult indxIl = (ViewResult)target.Index("IL");
+            ViewResult indxIn = (ViewResult)target.Index("IN");
+            ViewResult indxNull = (ViewResult)target.Index(null);
 
             // Act - get the set of states
-            int res1 = ((LocationListViewModel)target
-                .Index("MI").Model).PagingInfo.TotalItems;
-            int res2 = ((LocationListViewModel)target
-                .Index("IL").Model).PagingInfo.TotalItems;
-            int res3 = ((LocationListViewModel)target
-                .Index("IN").Model).PagingInfo.TotalItems;
-            int resAll = ((LocationListViewModel)target
-                .Index(null).Model).PagingInfo.TotalItems;
+            int res1 = ((LocationListViewModel)indx.Model).PagingInfo.TotalItems;
+            int res2 = ((LocationListViewModel)indxIl.Model).PagingInfo.TotalItems;
+            int res3 = ((LocationListViewModel)indxIn.Model).PagingInfo.TotalItems;
+            int resAll = ((LocationListViewModel)indxNull.Model).PagingInfo.TotalItems;
 
             //Assert
             Assert.AreEqual(res1, 3);
@@ -264,9 +266,9 @@ namespace TalmerMaint.Tests
 
             // Arrange
             LocationsController target = new LocationsController(mock.Object);
-
+            ViewResult indx = (ViewResult)target.Index(null);
             //Action
-            Location[] result = ((LocationListViewModel)target.Index(null).Model).Locations.ToArray();
+            Location[] result = ((LocationListViewModel)indx.Model).Locations.ToArray();
 
             //Assert
             Assert.AreEqual(result.Length, 5);
@@ -338,10 +340,10 @@ namespace TalmerMaint.Tests
             Location loc = new Location { Id= 1, Name = "Test", Address1 = "123 N. Address", City = "Troy", Zip = "87654",State="AZ", };
 
             //Act - try to save the location
-            ActionResult result = target.Edit(loc, null);
+            ActionResult result = target.Edit(loc);
 
             //Assert - check that the repo was called
-            mock.Verify(m => m.SaveLocation(loc, false));
+            mock.Verify(m => m.SaveLocation(loc));
             //Assert - check the method result type
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }
@@ -365,7 +367,7 @@ namespace TalmerMaint.Tests
             ActionResult result = target.Edit(loc);
 
             //Assert - check that the repo was called
-            mock.Verify(m => m.SaveLocation(It.IsAny<Location>(),false), Times.Never());
+            mock.Verify(m => m.SaveLocation(It.IsAny<Location>()), Times.Never());
             //Assert - check the method result type
             Assert.IsInstanceOfType(result, typeof(ViewResult));
         }

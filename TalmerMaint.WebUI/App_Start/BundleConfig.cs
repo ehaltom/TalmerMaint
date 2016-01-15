@@ -7,6 +7,9 @@ namespace TalmerMaint.WebUI.App_Start
     {
         public static void RegisterBundles(BundleCollection bundles)
         {
+            bundles.Add(new ScriptBundle("~/scripts/modernizr")
+                .Include(
+                    "~/Scripts/modernizr-*"));
             bundles.Add(new ScriptBundle("~/scripts/base")
                 .Include(
                     "~/Scripts/jquery-1.10.2.min.js",
