@@ -9,6 +9,8 @@
         $('#deleteConfirmModal').modal('show');
         return false;
     });
-
+    $(document).on("click", ".upload-img", function () {
+        $(this).after('<i class="fa fa-circle-o-notch fa-spin margin-left-ten"></i>');
+    });
 
 });
