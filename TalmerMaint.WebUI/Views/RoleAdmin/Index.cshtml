@@ -30,8 +30,12 @@
                     }
                     else
                     {
+                        /* for some reason the GetUserName function just hangs
                         <p>
-                            @string.Join(", ", role.Users.Select(x => Html.GetUserName(x.UserId)))</p>
+                            
+                            @string.Join(", ", role.Users.Select(x => Html.GetUserName(x.UserId)))
+                        </p>
+                        */
                     }
 
                     </td>

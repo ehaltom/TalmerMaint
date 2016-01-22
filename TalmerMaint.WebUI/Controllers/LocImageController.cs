@@ -30,7 +30,10 @@ namespace TalmerMaint.WebUI.Controllers
 
 
             model.LocImage = context.ImageByLocationID(id);
-
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_LocImageManage",model);
+            }
             return View(model);
         }
 
@@ -129,12 +132,8 @@ namespace TalmerMaint.WebUI.Controllers
 
             context.SaveLog(log);
 
-            Location model = context.Locations
-            .FirstOrDefault(p => p.Id == LocImage.LocationId);
-
-            model.LocImage = LocImage;
-            
-            return View(model);
+           
+            return RedirectToAction("Edit","Locations",new { id = LocImage.LocationId });
         }
 
         [HttpPost]

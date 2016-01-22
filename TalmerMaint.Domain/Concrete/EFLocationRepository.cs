@@ -84,8 +84,8 @@ namespace TalmerMaint.Domain.Concrete
         *************************************/
         private void SaveLocationsXMLFile()
         {
-            DataTable locTable = new DataTable();
-            locTable.TableName = "Locations";
+            DataTable locTable = new DataTable("Locations");
+            locTable.TableName = "Location";
             locTable.Columns.Add("Id", typeof(int));
             locTable.Columns.Add("Name", typeof(string));
             locTable.Columns.Add("Subtitle", typeof(string));

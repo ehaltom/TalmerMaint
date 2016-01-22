@@ -1,13 +1,21 @@
 ﻿@model TalmerMaint.Domain.Entities.LocImage
 
-<div>
+<div id="image-upload">
     <div class="margin-bottom-ten" >
 
-       
         <span class="label label-info" id="upload-file-info"></span><br />
         @if (Model.ImageMimeType == null)
         {
-            @Html.ActionLink("Add Branch Image","Manage","LocImage", new { id = Model.LocationId },new { @class = "btn btn-primary" })
+            @Ajax.ActionLink("Add Branch Image",
+                 "Manage","LocImage",
+                 new { id = Model.LocationId },
+                     new AjaxOptions
+                     {
+                         HttpMethod = "GET",
+                         InsertionMode = InsertionMode.Replace,
+                         UpdateTargetId = "image-upload"
+                     },
+                     new { @class = "btn btn-primary upload-img" })
 
         }
         else
@@ -15,7 +23,17 @@
             
             <img class="img-thumbnail loc-img margin-bottom-ten" width="150" src="@Url.Action("GetImage", "LocImage", new { Model.Id })" alt="location thumbnail" /><br />
             <div>
-                @Html.ActionLink("Change", "Manage","LocImage", new { id = Model.LocationId },new { @class = "btn btn-primary btn-xs" }) 
+                @Ajax.ActionLink("Update Image",
+                 "Manage","LocImage",
+                 new
+                 { id = Model.LocationId, @class = "btn btn-primary upload-img" },
+                     new AjaxOptions
+                     {
+                         HttpMethod = "GET",
+                         InsertionMode = InsertionMode.Replace,
+                         UpdateTargetId = "image-upload"
+                     },
+                     new { @class = "btn btn-primary upload-img btn-xs" })
                 @using (Html.BeginForm("Delete", "LocImage", new { id = Model.Id }, FormMethod.Post, new { @class = "deleteConfirm inline margin-left-five" }))
                 {
                     @Html.Hidden("Id", Model.Id)

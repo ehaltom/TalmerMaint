@@ -9,4 +9,6 @@
         $('#deleteConfirmModal').modal('show');
         return false;
     });
+
+
 });

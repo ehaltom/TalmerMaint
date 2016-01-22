@@ -71,6 +71,7 @@
 .sidebar{}
 .key-col,.name-col{width:300px;}
 .value-col{-ms-word-wrap:break-word; word-wrap:break-word;max-width:850px;}
+.loading-icon{width:100%;height:100%;position:absolute;top:0;left:0;background:rgba(255,255,255,.8);text-align:center;padding-top:25%;}
 @media(min-width:768px) {
     .form-inline .form-control {
     width: auto;

@@ -1,10 +1,10 @@
 <?xml version="1.0" standalone="yes"?>
 <DocumentElement>
   <LocServices>
-    <Id>2</Id>
+    <Id>1</Id>
     <Featured>true</Featured>
     <Name>Timely Service</Name>
-    <Description>Service that's fast and friendly</Description>
+    <Description>Service in a timely manor, with a smile</Description>
     <IconClassName>fa-smile-o</IconClassName>
     <LocationId>1</LocationId>
   </LocServices>
