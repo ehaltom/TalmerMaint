@@ -1,6 +1,7 @@
 *.bak
 *.mdf
 *.ldf
+*.xml
 
 # User-specific files
 *.suo
@@ -24,4 +25,5 @@ bld/
 [Oo]bj/
 PublishProfiles/
 TestResults/
+packages/
 .vs/.suo
